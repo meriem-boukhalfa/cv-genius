@@ -19,11 +19,16 @@ app = FastAPI(
 # CORS
 # -----------------------------
 app.add_middleware(
+    app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://cv-genius-92hbxuntw-bkm2.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
 )
 
 
