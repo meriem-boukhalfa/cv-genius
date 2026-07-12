@@ -98,7 +98,7 @@ export default function CreateResume() {
 
       // تحميل الـ PDF
       const pdfResponse = await fetch(
-        "http://127.0.0.1:8000/download-pdf"
+        "https://cv-genius-backend.onrender.com/download-pdf"
       );
 
       if (!pdfResponse.ok) {
