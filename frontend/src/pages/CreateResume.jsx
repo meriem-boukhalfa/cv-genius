@@ -91,45 +91,35 @@ export default function CreateResume() {
 
   const generateResume = async () => {
     try {
-      // إنشاء الـ CV
-      const response = await api.post("/generate-cv", cv);
+    // إنشاء الـ CV
+       const response = await api.post("/generate-cv", cv);
 
-      setLatex(response.data.latex);
+       setLatex(response.data.latex);
 
-      // تحميل الـ PDF
-      const pdfResponse = await fetch(
-        "https://cv-genius-backend.onrender.com/download-pdf"
-      );
+    // تحميل الـ PDF
+       const pdfResponse = await api.get("/download-pdf", {
+       responseType: "blob",
+    });
 
-      if (!pdfResponse.ok) {
-        throw new Error("PDF not found");
-      }
+       const url = window.URL.createObjectURL(pdfResponse.data);
 
-      const blob = await pdfResponse.blob();
+       const link = document.createElement("a");
+       link.href = url;
+       link.download = "resume.pdf";
 
-      const url = window.URL.createObjectURL(blob);
+       document.body.appendChild(link);
+       link.click();
 
-      const link = document.createElement("a");
+       document.body.removeChild(link);
+       window.URL.revokeObjectURL(url);
 
-      link.href = url;
-      link.download = "resume.pdf";
+       alert("Resume generated successfully!");
 
-      document.body.appendChild(link);
-
-      link.click();
-
-      link.remove();
-
-      window.URL.revokeObjectURL(url);
-
-      alert("Resume generated successfully!");
-
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong.");
-    }
-  };
-
+  }    catch (error) {
+       console.error(error);
+       alert("Something went wrong.");
+  }
+};
   return (
     <DashboardLayout>
       <Header />
