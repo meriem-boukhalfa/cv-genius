@@ -2,7 +2,6 @@ import {
   Box,
   Typography,
   Divider,
-  Button,
 } from "@mui/material";
 
 export default function Sidebar() {
@@ -62,7 +61,22 @@ export default function Sidebar() {
 
 
 
-        {/* ================= ADS ================= */}
+        {/* ================= SPONSORED ADS ================= */}
+
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "#9CA3AF",
+            fontSize: 12,
+            mb: 1,
+            fontWeight: 600,
+            letterSpacing: 1,
+            textTransform: "uppercase",
+          }}
+        >
+          Sponsored
+        </Typography>
+
 
         <Box
           sx={{
@@ -97,7 +111,6 @@ export default function Sidebar() {
 
 
         {/* ================= ABOUT ================= */}
-
 
         <Box
           sx={{
@@ -152,56 +165,11 @@ export default function Sidebar() {
         </Box>
 
 
-
-        {/* Description */}
-
-        <Typography
-          sx={{
-            mt: 3,
-            color: "#D1D5DB",
-            fontSize: 14,
-            lineHeight: 1.8,
-            textAlign: "center",
-          }}
-        >
-          This website was created with ❤️
-          <br />
-          to help you build your future.
-          <br />
-          Don't forget us in your prayers 🤍
-        </Typography>
-
-
-
-        {/* Premium Button */}
-
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{
-            mt: 3,
-            py: 1.4,
-            borderRadius: 3,
-            textTransform: "none",
-            fontWeight: 700,
-            fontSize: 16,
-            bgcolor: "#2BE6C1",
-            color: "#111827",
-            "&:hover": {
-              bgcolor: "#25d4b3",
-            },
-          }}
-        >
-          Upgrade to Premium
-        </Button>
-
-
       </Box>
 
 
 
       {/* ================= FOOTER ================= */}
-
 
       <Box>
 
