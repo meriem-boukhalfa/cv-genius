@@ -9,7 +9,8 @@ export default function Sidebar() {
     <Box
       sx={{
         width: 320,
-        minHeight: "100vh",
+        height: "100vh",
+        overflowY: "auto",
         bgcolor: "#111827",
         color: "#fff",
         display: "flex",
@@ -21,7 +22,7 @@ export default function Sidebar() {
       }}
     >
 
-      {/* ================= TOP ================= */}
+      {/* ================= CONTENT ================= */}
 
       <Box>
 
@@ -41,7 +42,7 @@ export default function Sidebar() {
         </Typography>
 
 
-        {/* App Name */}
+        {/* Title */}
 
         <Typography
           sx={{
@@ -61,7 +62,7 @@ export default function Sidebar() {
 
 
 
-        {/* ================= SPONSORED ADS ================= */}
+        {/* ================= SPONSORED ================= */}
 
         <Typography
           sx={{
@@ -71,10 +72,9 @@ export default function Sidebar() {
             mb: 1,
             fontWeight: 600,
             letterSpacing: 1,
-            textTransform: "uppercase",
           }}
         >
-          Sponsored
+          SPONSORED
         </Typography>
 
 
@@ -82,16 +82,14 @@ export default function Sidebar() {
           sx={{
             bgcolor: "#fff",
             borderRadius: 4,
-            overflow: "hidden",
-            height: 340,
+            height: 300,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             p: 2,
+            overflow: "hidden",
           }}
         >
-
-          {/* Google Adsense */}
 
           <ins
             className="adsbygoogle"
@@ -130,10 +128,7 @@ export default function Sidebar() {
               fontSize: 18,
               fontWeight: 800,
               mb: 1.5,
-              background:
-                "linear-gradient(90deg,#2BE6C1,#60A5FA)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: "#2BE6C1",
             }}
           >
             About CV Genius ✨
@@ -144,7 +139,7 @@ export default function Sidebar() {
             sx={{
               color: "#D1D5DB",
               fontSize: 13.5,
-              lineHeight: 1.9,
+              lineHeight: 1.8,
               textAlign: "center",
             }}
           >
@@ -155,11 +150,132 @@ export default function Sidebar() {
             professional ATS-friendly resumes
             <br />
             using Artificial Intelligence.
+          </Typography>
+
+        </Box>
+
+
+
+        {/* ================= TECHNOLOGIES ================= */}
+
+        <Box
+          sx={{
+            mt: 3,
+            p: 2,
+            borderRadius: 4,
+            bgcolor: "rgba(255,255,255,0.04)",
+            border:
+              "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: 800,
+              mb: 1,
+              color: "#2BE6C1",
+            }}
+          >
+            Technologies Used 🛠️
+          </Typography>
+
+
+          <Typography
+            sx={{
+              textAlign: "center",
+              color: "#D1D5DB",
+              fontSize: 13.5,
+              lineHeight: 2,
+            }}
+          >
+            ⚛️ React
             <br />
+            ⚡ FastAPI
             <br />
-            My goal is to make career opportunities
+            🤖 AI
             <br />
-            more accessible for everyone 🤍
+            📄 LaTeX
+          </Typography>
+
+        </Box>
+
+
+
+        {/* ================= LANGUAGES ================= */}
+
+        <Box
+          sx={{
+            mt: 2,
+            p: 2,
+            borderRadius: 4,
+            bgcolor: "rgba(255,255,255,0.04)",
+            border:
+              "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: 800,
+              mb: 1,
+              color: "#60A5FA",
+            }}
+          >
+            Languages 🌍
+          </Typography>
+
+
+          <Typography
+            sx={{
+              textAlign: "center",
+              color: "#D1D5DB",
+              fontSize: 13.5,
+              lineHeight: 2,
+            }}
+          >
+            🇬🇧 English
+            <br />
+            🇫🇷 Français
+            <br />
+            🇩🇿 العربية
+          </Typography>
+
+        </Box>
+
+
+
+        {/* ================= FOLLOW ================= */}
+
+        <Box
+          sx={{
+            mt: 2,
+            textAlign: "center",
+          }}
+        >
+
+          <Typography
+            sx={{
+              fontSize: 16,
+              fontWeight: 800,
+              color: "#2BE6C1",
+            }}
+          >
+            Follow Me 🔗
+          </Typography>
+
+
+          <Typography
+            sx={{
+              mt: 1,
+              color: "#D1D5DB",
+              fontSize: 13.5,
+            }}
+          >
+            GitHub • LinkedIn • Email
           </Typography>
 
         </Box>
@@ -171,7 +287,11 @@ export default function Sidebar() {
 
       {/* ================= FOOTER ================= */}
 
-      <Box>
+      <Box
+        sx={{
+          mt: 4,
+        }}
+      >
 
         <Divider
           sx={{
@@ -186,13 +306,12 @@ export default function Sidebar() {
           textAlign="center"
           sx={{
             color: "#BFC7D5",
-            fontWeight: 600,
             fontSize: 14,
+            fontWeight: 600,
           }}
         >
           © Boukhalfa Meriem 2026
         </Typography>
-
 
       </Box>
 
