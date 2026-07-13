@@ -2,37 +2,51 @@ import {
   Box,
   Typography,
   Divider,
-  Button,
 } from "@mui/material";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 export default function Sidebar() {
   return (
     <Box
       sx={{
-        width: 320,
-        minHeight: "100vh",
-        bgcolor: "#111827",
+        width: {
+          xs: "100%",
+          md: 340,
+        },
+        minHeight: {
+          xs: "auto",
+          md: "100vh",
+        },
+        background: "linear-gradient(180deg, #0F172A 0%, #111827 100%)",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        px: 4,
-        py: 4,
-        boxShadow: "8px 0 25px rgba(0,0,0,.15)",
+        px: {
+          xs: 3,
+          md: 4,
+        },
+        py: {
+          xs: 4,
+          md: 5,
+        },
+        boxShadow: "8px 0 30px rgba(0,0,0,.18)",
       }}
     >
       {/* ================= TOP ================= */}
 
       <Box>
-
-        {/* Logo */}
+        {/* Name */}
 
         <Typography
           sx={{
-            fontSize: 38,
-            fontWeight: 800,
-            lineHeight: 1.15,
             textAlign: "center",
+            fontWeight: 800,
+            fontSize: {
+              xs: 30,
+              md: 38,
+            },
+            lineHeight: 1.2,
           }}
         >
           Boukhalfa
@@ -40,38 +54,97 @@ export default function Sidebar() {
           Meriem
         </Typography>
 
-        <Typography
-          sx={{
-            mt: 1,
-            mb: 4,
-            textAlign: "center",
-            fontSize: 32,
-            fontWeight: 800,
-            background:
-              "linear-gradient(90deg,#2BE6C1,#60A5FA)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          CV Genius ✨
-        </Typography>
-
-        {/* ================= ADS ================= */}
+        {/* Logo */}
 
         <Box
           sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 1,
+            mt: 2,
+          }}
+        >
+          <AutoAwesomeIcon
+            sx={{
+              color: "#2BE6C1",
+              fontSize: {
+                xs: 26,
+                md: 30,
+              },
+            }}
+          />
+
+          <Typography
+            sx={{
+              fontWeight: 800,
+              fontSize: {
+                xs: 24,
+                md: 30,
+              },
+              background:
+                "linear-gradient(90deg,#2BE6C1,#60A5FA)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            CV Genius
+          </Typography>
+        </Box>
+
+        {/* Subtitle */}
+
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "#2BE6C1",
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: 2,
+            mt: 1,
+            mb: 4,
+          }}
+        >
+          AI RESUME BUILDER
+        </Typography>
+
+        {/* ADS */}
+
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "#94A3B8",
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 2,
+            mb: 2,
+          }}
+        >
+          SPONSORED
+        </Typography>
+
+        <Box
+          sx={{
+            height: {
+              xs: 250,
+              md: 340,
+            },
             bgcolor: "#fff",
             borderRadius: 4,
+            border: "1px solid #E5E7EB",
             overflow: "hidden",
-            height: 340,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             p: 2,
+            transition: ".3s",
+
+            "&:hover": {
+              transform: "translateY(-4px)",
+              boxShadow: "0 12px 30px rgba(0,0,0,.15)",
+            },
           }}
         >
-          {/* Replace later with Google Adsense */}
-
           <ins
             className="adsbygoogle"
             style={{
@@ -90,70 +163,64 @@ export default function Sidebar() {
 
         <Typography
           sx={{
-            mt: 3,
-            color: "#D1D5DB",
-            fontSize: 14,
-            lineHeight: 1.8,
+            mt: 4,
+            color: "#CBD5E1",
             textAlign: "center",
+            fontSize: {
+              xs: 14,
+              md: 15,
+            },
+            lineHeight: 1.8,
           }}
         >
-          Build professional ATS-friendly resumes
+          Build professional ATS-friendly resumes with AI.
           <br />
-          powered by Artificial Intelligence.
+          Create modern CVs in minutes and increase
           <br />
-          Create modern CVs that help you stand
-          <br />
-          out and get more interviews.
+          your chances of getting hired.
         </Typography>
 
-        {/* Premium Button */}
+        {/* Arabic Message */}
 
-        <Button
-          fullWidth
-          variant="contained"
+        <Typography
           sx={{
             mt: 3,
-            py: 1.4,
-            borderRadius: 3,
-            textTransform: "none",
-            fontWeight: 700,
-            fontSize: 16,
-            bgcolor: "#2BE6C1",
-            color: "#111827",
-            "&:hover": {
-              bgcolor: "#25d4b3",
+            textAlign: "center",
+            color: "#E2E8F0",
+            fontSize: {
+              xs: 13,
+              md: 14,
             },
+            lineHeight: 1.8,
+            fontStyle: "italic",
           }}
         >
-          Upgrade to Premium
-        </Button>
-
+          هذا الموقع أُنشئ لمساعدتكم،
+          <br />
+          فلا تنسونا من صالح دعائكم 🤍
+        </Typography>
       </Box>
 
-      {/* ================= FOOTER ================= */}
+    {/* ================= FOOTER ================= */}
 
       <Box>
-
         <Divider
           sx={{
-            borderColor: "rgba(255,255,255,.12)",
+            borderColor: "rgba(255,255,255,.08)",
             mb: 2,
           }}
         />
 
         <Typography
-          textAlign="center"
           sx={{
-            color: "#BFC7D5",
-            fontWeight: 600,
-            fontSize: 14,
+            textAlign: "center",
+            color: "#64748B",
+            fontSize: 12,
           }}
         >
-          © Boukhalfa Meriem 2026
+          © 2026 Boukhalfa Meriem
         </Typography>
-
       </Box>
-
     </Box>
   );
 }
