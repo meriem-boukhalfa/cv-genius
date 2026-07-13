@@ -2,51 +2,38 @@ import {
   Box,
   Typography,
   Divider,
+  Button,
 } from "@mui/material";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 export default function Sidebar() {
   return (
     <Box
       sx={{
-        width: {
-          xs: "100%",
-          md: 340,
-        },
-        minHeight: {
-          xs: "auto",
-          md: "100vh",
-        },
-        background: "linear-gradient(180deg, #0F172A 0%, #111827 100%)",
+        width: 320,
+        minHeight: "100vh",
+        bgcolor: "#111827",
         color: "#fff",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        px: {
-          xs: 3,
-          md: 4,
-        },
-        py: {
-          xs: 4,
-          md: 5,
-        },
-        boxShadow: "8px 0 30px rgba(0,0,0,.18)",
+        px: 4,
+        py: 4,
+        boxShadow: "8px 0 25px rgba(0,0,0,.15)",
       }}
     >
+
       {/* ================= TOP ================= */}
 
       <Box>
-        {/* Name */}
+
+        {/* Logo */}
 
         <Typography
           sx={{
-            textAlign: "center",
+            fontSize: 38,
             fontWeight: 800,
-            fontSize: {
-              xs: 30,
-              md: 38,
-            },
-            lineHeight: 1.2,
+            lineHeight: 1.15,
+            textAlign: "center",
           }}
         >
           Boukhalfa
@@ -54,97 +41,44 @@ export default function Sidebar() {
           Meriem
         </Typography>
 
-        {/* Logo */}
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-            mt: 2,
-          }}
-        >
-          <AutoAwesomeIcon
-            sx={{
-              color: "#2BE6C1",
-              fontSize: {
-                xs: 26,
-                md: 30,
-              },
-            }}
-          />
-
-          <Typography
-            sx={{
-              fontWeight: 800,
-              fontSize: {
-                xs: 24,
-                md: 30,
-              },
-              background:
-                "linear-gradient(90deg,#2BE6C1,#60A5FA)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            CV Genius
-          </Typography>
-        </Box>
-
-        {/* Subtitle */}
+        {/* App Name */}
 
         <Typography
           sx={{
-            textAlign: "center",
-            color: "#2BE6C1",
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: 2,
             mt: 1,
             mb: 4,
-          }}
-        >
-          AI RESUME BUILDER
-        </Typography>
-
-        {/* ADS */}
-
-        <Typography
-          sx={{
             textAlign: "center",
-            color: "#94A3B8",
-            fontSize: 12,
-            fontWeight: 700,
-            letterSpacing: 2,
-            mb: 2,
+            fontSize: 32,
+            fontWeight: 800,
+            background:
+              "linear-gradient(90deg,#2BE6C1,#60A5FA)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
-          SPONSORED
+          CV Genius ✨
         </Typography>
+
+
+
+        {/* ================= ADS ================= */}
 
         <Box
           sx={{
-            height: {
-              xs: 250,
-              md: 340,
-            },
             bgcolor: "#fff",
             borderRadius: 4,
-            border: "1px solid #E5E7EB",
             overflow: "hidden",
+            height: 340,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             p: 2,
-            transition: ".3s",
-
-            "&:hover": {
-              transform: "translateY(-4px)",
-              boxShadow: "0 12px 30px rgba(0,0,0,.15)",
-            },
           }}
         >
+
+          {/* Google Adsense */}
+
           <ins
             className="adsbygoogle"
             style={{
@@ -157,70 +91,144 @@ export default function Sidebar() {
             data-ad-format="auto"
             data-full-width-responsive="true"
           />
+
         </Box>
+
+
+
+        {/* ================= ABOUT ================= */}
+
+
+        <Box
+          sx={{
+            mt: 3,
+            p: 2.5,
+            borderRadius: 4,
+            background:
+              "linear-gradient(145deg, rgba(43,230,193,0.12), rgba(96,165,250,0.08))",
+            border:
+              "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontSize: 18,
+              fontWeight: 800,
+              mb: 1.5,
+              background:
+                "linear-gradient(90deg,#2BE6C1,#60A5FA)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            About CV Genius ✨
+          </Typography>
+
+
+          <Typography
+            sx={{
+              color: "#D1D5DB",
+              fontSize: 13.5,
+              lineHeight: 1.9,
+              textAlign: "center",
+            }}
+          >
+            Created with passion to help students,
+            <br />
+            graduates, and job seekers build
+            <br />
+            professional ATS-friendly resumes
+            <br />
+            using Artificial Intelligence.
+            <br />
+            <br />
+            My goal is to make career opportunities
+            <br />
+            more accessible for everyone 🤍
+          </Typography>
+
+        </Box>
+
+
 
         {/* Description */}
 
         <Typography
           sx={{
-            mt: 4,
-            color: "#CBD5E1",
-            textAlign: "center",
-            fontSize: {
-              xs: 14,
-              md: 15,
-            },
+            mt: 3,
+            color: "#D1D5DB",
+            fontSize: 14,
             lineHeight: 1.8,
+            textAlign: "center",
           }}
         >
-          Build professional ATS-friendly resumes with AI.
+          This website was created with ❤️
           <br />
-          Create modern CVs in minutes and increase
+          to help you build your future.
           <br />
-          your chances of getting hired.
+          Don't forget us in your prayers 🤍
         </Typography>
 
-        {/* Arabic Message */}
 
-        <Typography
+
+        {/* Premium Button */}
+
+        <Button
+          fullWidth
+          variant="contained"
           sx={{
             mt: 3,
-            textAlign: "center",
-            color: "#E2E8F0",
-            fontSize: {
-              xs: 13,
-              md: 14,
+            py: 1.4,
+            borderRadius: 3,
+            textTransform: "none",
+            fontWeight: 700,
+            fontSize: 16,
+            bgcolor: "#2BE6C1",
+            color: "#111827",
+            "&:hover": {
+              bgcolor: "#25d4b3",
             },
-            lineHeight: 1.8,
-            fontStyle: "italic",
           }}
         >
-          هذا الموقع أُنشئ لمساعدتكم،
-          <br />
-          فلا تنسونا من صالح دعائكم 🤍
-        </Typography>
+          Upgrade to Premium
+        </Button>
+
+
       </Box>
 
-    {/* ================= FOOTER ================= */}
+
+
+      {/* ================= FOOTER ================= */}
+
 
       <Box>
+
         <Divider
           sx={{
-            borderColor: "rgba(255,255,255,.08)",
+            borderColor:
+              "rgba(255,255,255,.12)",
             mb: 2,
           }}
         />
 
+
         <Typography
+          textAlign="center"
           sx={{
-            textAlign: "center",
-            color: "#64748B",
-            fontSize: 12,
+            color: "#BFC7D5",
+            fontWeight: 600,
+            fontSize: 14,
           }}
         >
-          © 2026 Boukhalfa Meriem
+          © Boukhalfa Meriem 2026
         </Typography>
+
+
       </Box>
+
+
     </Box>
   );
 }
