@@ -331,85 +331,79 @@ export default function Sidebar() {
 
 
 
-      {/* ================= FOOTER ================= */}
+            {/* ================= FOOTER ================= */}
 
       <Box
         sx={{
           mt: 4,
         }}
       >
+        <Divider
+          sx={{
+            borderColor: "rgba(255,255,255,.12)",
+            mb: 2,
+          }}
+        />
 
-          <Divider
-    sx={{
-      borderColor: "rgba(255,255,255,.12)",
-      mb: 2,
-    }}
-  />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 1,
+            flexWrap: "wrap",
+            mb: 2,
+          }}
+        >
+          <Link
+            href="/privacy-policy"
+            underline="hover"
+            sx={{
+              color: "#9CA3AF",
+              fontSize: 12,
+              "&:hover": {
+                color: "#2BE6C1",
+              },
+            }}
+          >
+            Privacy Policy
+          </Link>
 
-  {/* ================= LEGAL ================= */}
+          <Typography
+            sx={{
+              color: "#4B5563",
+              fontSize: 12,
+            }}
+          >
+            •
+          </Typography>
 
-  <Box
-    sx={{
-      textAlign: "center",
-      mb: 2,
-    }}
-  >
-    <Typography
-      sx={{
-        color: "#2BE6C1",
-        fontWeight: 700,
-        fontSize: 15,
-        mb: 1,
-      }}
-    >
-      Legal
-    </Typography>
+          <Link
+            href="/terms-of-service"
+            underline="hover"
+            sx={{
+              color: "#9CA3AF",
+              fontSize: 12,
+              "&:hover": {
+                color: "#2BE6C1",
+              },
+            }}
+          >
+            Terms of Service
+          </Link>
+        </Box>
 
-    <Link
-      href="/privacy-policy"
-      underline="none"
-      sx={{
-        display: "block",
-        color: "#9CA3AF",
-        fontSize: 13,
-        mb: 0.5,
-        "&:hover": {
-          color: "#2BE6C1",
-        },
-      }}
-    >
-      Privacy Policy
-    </Link>
-
-    <Link
-      href="/terms-of-service"
-      underline="none"
-      sx={{
-        display: "block",
-        color: "#9CA3AF",
-        fontSize: 13,
-        "&:hover": {
-          color: "#2BE6C1",
-        },
-      }}
-    >
-      Terms of Service
-    </Link>
-  </Box>
-
-  <Typography
-    textAlign="center"
-    sx={{
-      color: "#BFC7D5",
-      fontWeight: 600,
-      fontSize: 14,
-    }}
-  >
-    © Boukhalfa Meriem 2026
-  </Typography>
-
-</Box>
-
-</Box>
-);
+        <Typography
+          textAlign="center"
+          sx={{
+            color: "#BFC7D5",
+            fontWeight: 600,
+            fontSize: 14,
+          }}
+        >
+          © Boukhalfa Meriem 2026
+        </Typography>
+      </Box>
+    </Box>
+  );
 }
