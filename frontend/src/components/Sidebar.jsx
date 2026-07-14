@@ -2,6 +2,7 @@ import {
   Box,
   Typography,
   Divider,
+  Link,
 } from "@mui/material";
 
 export default function Sidebar() {
@@ -42,7 +43,7 @@ export default function Sidebar() {
         </Typography>
 
 
-        {/* Title */}
+        {/* App Name */}
 
         <Typography
           sx={{
@@ -194,7 +195,7 @@ export default function Sidebar() {
             <br />
             ⚡ FastAPI
             <br />
-            🤖 AI
+            🤖 Artificial Intelligence
             <br />
             📄 LaTeX
           </Typography>
@@ -248,11 +249,11 @@ export default function Sidebar() {
 
 
 
-        {/* ================= FOLLOW ================= */}
+        {/* ================= FOLLOW ME ================= */}
 
         <Box
           sx={{
-            mt: 2,
+            mt: 3,
             textAlign: "center",
           }}
         >
@@ -262,21 +263,66 @@ export default function Sidebar() {
               fontSize: 16,
               fontWeight: 800,
               color: "#2BE6C1",
+              mb: 1,
             }}
           >
             Follow Me 🔗
           </Typography>
 
 
-          <Typography
+          <Link
+            href="https://github.com/meriem-boukhalfa"
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="none"
             sx={{
-              mt: 1,
+              display: "block",
               color: "#D1D5DB",
               fontSize: 13.5,
+              mb: 0.5,
+              "&:hover": {
+                color: "#fff",
+              },
             }}
           >
-            GitHub • LinkedIn • Email
-          </Typography>
+            🐙 GitHub
+          </Link>
+
+
+          <Link
+            href="https://www.linkedin.com/in/meriem-boukhalfa-681832251/"
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="none"
+            sx={{
+              display: "block",
+              color: "#D1D5DB",
+              fontSize: 13.5,
+              mb: 0.5,
+              "&:hover": {
+                color: "#60A5FA",
+              },
+            }}
+          >
+            💼 LinkedIn
+          </Link>
+
+
+          <Link
+            href="mailto:boukhalfa2012@gmail.com"
+            underline="none"
+            sx={{
+              display: "block",
+              color: "#D1D5DB",
+              fontSize: 13.5,
+              "&:hover": {
+                color: "#2BE6C1",
+              },
+            }}
+          >
+            ✉️ Email
+          </Link>
+
 
         </Box>
 
@@ -306,8 +352,8 @@ export default function Sidebar() {
           textAlign="center"
           sx={{
             color: "#BFC7D5",
-            fontSize: 14,
             fontWeight: 600,
+            fontSize: 14,
           }}
         >
           © Boukhalfa Meriem 2026
