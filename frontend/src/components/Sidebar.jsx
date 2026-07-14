@@ -339,29 +339,77 @@ export default function Sidebar() {
         }}
       >
 
-        <Divider
-          sx={{
-            borderColor:
-              "rgba(255,255,255,.12)",
-            mb: 2,
-          }}
-        />
+          <Divider
+    sx={{
+      borderColor: "rgba(255,255,255,.12)",
+      mb: 2,
+    }}
+  />
 
+  {/* ================= LEGAL ================= */}
 
-        <Typography
-          textAlign="center"
-          sx={{
-            color: "#BFC7D5",
-            fontWeight: 600,
-            fontSize: 14,
-          }}
-        >
-          © Boukhalfa Meriem 2026
-        </Typography>
+  <Box
+    sx={{
+      textAlign: "center",
+      mb: 2,
+    }}
+  >
+    <Typography
+      sx={{
+        color: "#2BE6C1",
+        fontWeight: 700,
+        fontSize: 15,
+        mb: 1,
+      }}
+    >
+      Legal
+    </Typography>
 
-      </Box>
+    <Link
+      href="/privacy-policy"
+      underline="none"
+      sx={{
+        display: "block",
+        color: "#9CA3AF",
+        fontSize: 13,
+        mb: 0.5,
+        "&:hover": {
+          color: "#2BE6C1",
+        },
+      }}
+    >
+      Privacy Policy
+    </Link>
 
+    <Link
+      href="/terms-of-service"
+      underline="none"
+      sx={{
+        display: "block",
+        color: "#9CA3AF",
+        fontSize: 13,
+        "&:hover": {
+          color: "#2BE6C1",
+        },
+      }}
+    >
+      Terms of Service
+    </Link>
+  </Box>
 
-    </Box>
-  );
+  <Typography
+    textAlign="center"
+    sx={{
+      color: "#BFC7D5",
+      fontWeight: 600,
+      fontSize: 14,
+    }}
+  >
+    © Boukhalfa Meriem 2026
+  </Typography>
+
+</Box>
+
+</Box>
+);
 }
