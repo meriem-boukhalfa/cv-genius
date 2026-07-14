@@ -394,14 +394,17 @@ export default function Sidebar() {
         </Box>
 
         <Typography
-          textAlign="center"
           sx={{
-            color: "#BFC7D5",
-            fontWeight: 600,
+            textAlign: "center",
             fontSize: 14,
+            fontWeight: 700,
+            background: "linear-gradient(90deg, #FF69B4, #FFB6C1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            letterSpacing: 0.5,
           }}
         >
-          © Boukhalfa Meriem 2026
+            © Boukhalfa Meriem 2026
         </Typography>
       </Box>
     </Box>
