@@ -394,18 +394,23 @@ export default function Sidebar() {
         </Box>
 
         <Typography
-          sx={{
-            textAlign: "center",
-            fontSize: 14,
-            fontWeight: 700,
-            background: "linear-gradient(90deg, #FF69B4, #FFB6C1)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            letterSpacing: 0.5,
-          }}
-        >
-            © Boukhalfa Meriem 2026
-        </Typography>
+  sx={{
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: 700,
+    color: "#FFFFFF",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      background: "linear-gradient(90deg, #FFFFFF, #FF69B4)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      transform: "scale(1.05)",
+    },
+  }}
+>
+  © Boukhalfa Meriem 2026
+</Typography>
       </Box>
     </Box>
   );
