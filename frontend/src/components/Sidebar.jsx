@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   Box,
   Typography,
@@ -6,12 +8,32 @@ import {
 } from "@mui/material";
 
 export default function Sidebar() {
+  useEffect(() => {
+  try {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  } catch (e) {
+    console.log(e);
+  }
+  }, []);
   return (
     <Box
       sx={{
-        width: 320,
-        height: "100vh",
-        overflowY: "auto",
+        width: {
+             xs: "100%",
+            md: 320,
+        },
+        height: {
+         xs: "auto",
+         md: "100vh",
+        },
+        minHeight: {
+         xs: "auto",
+         md: "100vh",
+        },
+        overflowY: {
+          xs: "visible",
+          md: "auto",
+        },
         bgcolor: "#111827",
         color: "#fff",
         display: "flex",
@@ -31,7 +53,10 @@ export default function Sidebar() {
 
         <Typography
           sx={{
-            fontSize: 38,
+            fontSize: {
+               xs: 28,
+               md: 38,
+          },
             fontWeight: 800,
             lineHeight: 1.15,
             textAlign: "center",
@@ -50,7 +75,10 @@ export default function Sidebar() {
             mt: 1,
             mb: 4,
             textAlign: "center",
-            fontSize: 32,
+            fontSize: {
+              xs: 26,
+              md: 32,
+            },
             fontWeight: 800,
             background:
               "linear-gradient(90deg,#2BE6C1,#60A5FA)",
@@ -83,7 +111,10 @@ export default function Sidebar() {
           sx={{
             bgcolor: "#fff",
             borderRadius: 4,
-            height: 300,
+            height: {
+              xs: 180,
+              md: 300,
+          },
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -91,6 +122,7 @@ export default function Sidebar() {
             overflow: "hidden",
           }}
         >
+    
 
           <ins
             className="adsbygoogle"
@@ -98,12 +130,14 @@ export default function Sidebar() {
               display: "block",
               width: "100%",
               height: "100%",
+               
+             
             }}
-            data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-            data-ad-slot="xxxxxxxxxx"
+            data-ad-client="ca-pub-8058401601102266"
+            data-ad-slot="5561276412"
             data-ad-format="auto"
             data-full-width-responsive="true"
-          />
+           />
 
         </Box>
 
