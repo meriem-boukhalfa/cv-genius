@@ -9,21 +9,19 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 export default function Header({ onMenuClick }) {
   return (
-    <Box
-      sx={{
-        mb: 4,
-      }}
-    >
+    <Box sx={{ mb: 4 }}>
       <Box
         sx={{
-          bgcolor: "#ffffff",
+          background:
+            "linear-gradient(135deg,#0F172A,#111827,#1E293B)",
           borderRadius: "24px",
           px: 3,
-          py: 2,
+          py: 2.5,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          boxShadow: "0 10px 35px rgba(0,0,0,.08)",
+          boxShadow: "0 15px 35px rgba(0,0,0,.25)",
+          border: "1px solid rgba(255,255,255,.08)",
         }}
       >
         <Box
@@ -33,7 +31,7 @@ export default function Header({ onMenuClick }) {
             gap: 2,
           }}
         >
-          {/* يظهر فقط في الهاتف */}
+          {/* Mobile Menu */}
 
           <IconButton
             onClick={onMenuClick}
@@ -42,16 +40,13 @@ export default function Header({ onMenuClick }) {
                 xs: "flex",
                 md: "none",
               },
-
-              width: 52,
-              height: 52,
-
-              borderRadius: "16px",
-
+              width: 56,
+              height: 56,
+              borderRadius: "18px",
               background:
                 "linear-gradient(135deg,#2BE6C1,#60A5FA)",
-
               color: "#fff",
+              boxShadow: "0 8px 25px rgba(43,230,193,.35)",
 
               "&:hover": {
                 background:
@@ -59,18 +54,20 @@ export default function Header({ onMenuClick }) {
               },
             }}
           >
-            <MenuRoundedIcon />
+            <MenuRoundedIcon sx={{ fontSize: 30 }} />
           </IconButton>
 
           <Box>
             <Typography
               sx={{
-                fontSize: {
-                  xs: 28,
-                  md: 38,
-                },
                 fontWeight: 900,
                 lineHeight: 1,
+                letterSpacing: 1,
+
+                fontSize: {
+                  xs: 30,
+                  md: 44,
+                },
 
                 background:
                   "linear-gradient(90deg,#2BE6C1,#60A5FA)",
@@ -84,28 +81,36 @@ export default function Header({ onMenuClick }) {
 
             <Typography
               sx={{
-                color: "#6B7280",
-                fontSize: 14,
+                color: "#CBD5E1",
+                fontSize: {
+                  xs: 13,
+                  md: 16,
+                },
+                mt: 0.6,
                 fontWeight: 500,
-                mt: 0.3,
               }}
             >
-              by Boukhalfa Meriem
+              Build your professional ATS resume
             </Typography>
           </Box>
         </Box>
 
         <Avatar
           sx={{
-            width: 56,
-            height: 56,
-            bgcolor: "#E5E7EB",
-            color: "#111827",
-            fontWeight: 700,
-            fontSize: 24,
+            width: {
+              xs: 58,
+              md: 68,
+            },
+            height: {
+              xs: 58,
+              md: 68,
+            },
+            bgcolor: "rgba(255,255,255,.08)",
+            border: "1px solid rgba(255,255,255,.08)",
+            fontSize: 28,
           }}
         >
-          🇩🇿
+          
         </Avatar>
       </Box>
     </Box>
