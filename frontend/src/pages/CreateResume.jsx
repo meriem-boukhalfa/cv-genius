@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 
 import DashboardLayout from "../layout/DashboardLayout";
-import Header from "../components/Header";
 import PersonalInfo from "../components/PersonalInfo";
 import Experience from "../components/Experience";
 import Education from "../components/Education";
@@ -122,13 +121,7 @@ export default function CreateResume() {
 };
   return (
     <DashboardLayout>
-      <Header />
-
-      <PersonalInfo
-        cv={cv}
-        handleChange={handleChange}
-      />
-
+      
       <Experience
        cv={cv}
        setCv={setCv}
