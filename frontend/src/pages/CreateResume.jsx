@@ -15,7 +15,8 @@ import Projects from "../components/Projects";
 import GenerateButton from "../components/GenerateButton";
 import Certificates from "../components/Certificates";
 import Languages from "../components/Languages";
-
+import Internships from "../components/Internships";
+import Workshops from "../components/Workshops";
 import api from "../services/api";
 
 export default function CreateResume() {
@@ -77,6 +78,8 @@ export default function CreateResume() {
     description: "",
   },
 ],
+   internships: [],
+   workshops: [],
   });
 
   const [latex, setLatex] = useState("");
@@ -153,7 +156,15 @@ export default function CreateResume() {
          setCv={setCv}
 
       />
+      <Internships
+        cv={cv}
+        setCv={setCv}
+      />
 
+     <Workshops
+        cv={cv}
+        setCv={setCv}
+    />
       <GenerateButton onClick={generateResume} />
 
       {latex && (
