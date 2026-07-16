@@ -121,6 +121,10 @@ export default function CreateResume() {
 };
   return (
     <DashboardLayout>
+       <PersonalInfo
+        cv={cv}
+        handleChange={handleChange}
+      />
       
       <Experience
        cv={cv}
