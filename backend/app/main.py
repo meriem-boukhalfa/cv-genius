@@ -9,7 +9,6 @@ from app.schemas.cv import CVData
 from app.services.gemini_service import improve_cv
 from app.services.template_service import render_resume
 
-
 app = FastAPI(
     title="CV Genius API",
     version="1.0.0"
@@ -26,7 +25,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # -----------------------------
 # Home
 # -----------------------------
@@ -36,32 +34,74 @@ def home():
         "message": "Welcome to CV Genius API"
     }
 
-
 # -----------------------------
 # Generate Resume
 # -----------------------------
 @app.post("/generate-cv")
 def generate_cv(cv: CVData):
 
-    print("========== CV RECEIVED ==========")
+    print("\n========== CV RECEIVED ==========")
     print(cv.model_dump())
-    print("=================================")
 
-    # Improve CV using Gemini
+    print("\n========== EXPERIENCE ==========")
+    print(cv.experience)
+
+    print("\n========== EDUCATION ==========")
+    print(cv.education)
+
+    print("\n========== INTERNSHIPS ==========")
+    print(cv.internships)
+
+    print("\n========== WORKSHOPS ==========")
+    print(cv.workshops)
+
+    print("\n========== PROJECTS ==========")
+    print(cv.projects)
+
+    print("\n========== CERTIFICATES ==========")
+    print(cv.certificates)
+
+    print("\n========== LANGUAGES ==========")
+    print(cv.languages)
+
+    print("\n========== SKILLS ==========")
+    print(cv.skills)
+
+    print("\n=================================\n")
+
+    # Improve CV
     improved_data = improve_cv(cv)
 
-    # Build LaTeX
+    # Generate LaTeX
     latex = render_resume(cv, improved_data)
 
-    # Output folder
+    # -----------------------------
+    # DEBUG
+    # -----------------------------
+    print("\n========== CURRENT DIRECTORY ==========")
+    print(Path.cwd())
+
     output_dir = Path("output")
     output_dir.mkdir(exist_ok=True)
 
+    print("\n========== OUTPUT DIRECTORY ==========")
+    print(output_dir.resolve())
+
+    print("\n========== GENERATED LATEX ==========")
+    print(latex[:1500])   # أول 1500 حرف
+
+    # -----------------------------
     # Save resume.tex
+    # -----------------------------
     tex_file = output_dir / "resume.tex"
     tex_file.write_text(latex, encoding="utf-8")
 
+    print("\n========== SAVED FILE ==========")
+    print(tex_file.resolve())
+
+    # -----------------------------
     # Compile PDF
+    # -----------------------------
     result = subprocess.run(
         [
             "pdflatex",
@@ -88,7 +128,6 @@ def generate_cv(cv: CVData):
         "latex": latex,
         "pdf_file": str(pdf_file),
     }
-
 
 # -----------------------------
 # Download PDF

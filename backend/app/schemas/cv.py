@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import List
-from pydantic import BaseModel
 
 
 # -----------------------------
@@ -61,9 +60,32 @@ class Language(BaseModel):
 
 
 # -----------------------------
+# Internships
+# -----------------------------
+class Internship(BaseModel):
+    company: str
+    role: str
+    location: str
+    start_date: str
+    end_date: str
+    description: str
+
+
+# -----------------------------
+# Workshops
+# -----------------------------
+class Workshop(BaseModel):
+    name: str
+    organization: str
+    date: str
+    description: str
+
+
+# -----------------------------
 # CV
 # -----------------------------
 class CVData(BaseModel):
+
     full_name: str
     email: str
     phone: str
@@ -76,7 +98,15 @@ class CVData(BaseModel):
 
     experience: List[Experience]
     education: List[Education]
+
+    internships: List[Internship]
+
+    workshops: List[Workshop]
+
     skills: List[str]
+
     projects: List[Project]
+
     certificates: List[Certificate]
+
     languages: List[Language]

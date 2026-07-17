@@ -1,138 +1,168 @@
 \documentclass[11pt,a4paper]{article}
 
-\usepackage[a4paper,
+% ======================
+% Packages
+% ======================
+
+\usepackage[
+a4paper,
 left=1.7cm,
 right=1.7cm,
 top=1.5cm,
-bottom=1.5cm]{geometry}
+bottom=1.5cm
+]{geometry}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{xcolor}
-\usepackage{tabularx}
-\usepackage{array}
 \usepackage{titlesec}
-\usepackage{enumitem}
 \usepackage{hyperref}
-\usepackage{setspace}
+\usepackage{enumitem}
 \usepackage{parskip}
 
-\hypersetup{
-colorlinks=true,
-urlcolor=blue
-}
+% ======================
+% Colors
+% ======================
 
 \definecolor{sectionblue}{HTML}{0E4F93}
+\definecolor{textblack}{HTML}{000000}
+
+% ======================
+% General Style
+% ======================
 
 \pagestyle{empty}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{2pt}
+\setlength{\parskip}{4pt}
 
-\titleformat{\section}
-{\Large\bfseries\color{sectionblue}}
-{}
-{0em}
-{}
-[\titlerule]
+\color{textblack}
+
+\hypersetup{
+colorlinks=true,
+urlcolor=sectionblue
+}
+
+% ======================
+% Section Style
+% ======================
 
 \newcommand{\cvsection}[1]{
-\vspace{0.5cm}
+
+\vspace{0.35cm}
+
 {\Large\bfseries\color{sectionblue} #1}
+
 \vspace{2mm}
 
-{\color{sectionblue}\rule{\linewidth}{0.4pt}}
+{\color{sectionblue!35}\rule{\linewidth}{0.3pt}}
 
 \vspace{3mm}
-}
-
-\newcommand{\education}[6]{
-
-\textbf{#1}
-\hfill
-#2
-
-#3
-
-\textit{#4}
-
-\vspace{2mm}
-
-#5
-
-\vspace{4mm}
 
 }
 
-\newcommand{\experience}[5]{
-
-\textbf{#1}
-
-\hfill
-
-#2
-
-#3
-
-\vspace{2mm}
-
-#4
-
-\vspace{4mm}
-
-}
+% ======================
+% Document
+% ======================
 
 \begin{document}
 
+% ======================
+% Header
+% ======================
+
 \begin{center}
 
-{\fontsize{26}{28}\selectfont\bfseries {FULL_NAME}}
+{\fontsize{26}{30}\selectfont\textbf{FULL_NAME}}
 
-\vspace{0.25cm}
+\vspace{0.3cm}
 
 EMAIL
-\quad|\quad
+\quad | \quad
 PHONE
-\quad|\quad
+\quad | \quad
 LOCATION
 
 \vspace{2mm}
 
-LINKEDIN
-\quad|\quad
-GITHUB
+\href{LINKEDIN}{LinkedIn}
+\quad | \quad
+\href{GITHUB}{GitHub}
 
 \end{center}
+
+% ======================
+% Professional Summary
+% ======================
+
 \cvsection{Professional Summary}
 
 SUMMARY
 
+% ======================
+% Education
+% ======================
 
 \cvsection{Education}
 
 EDUCATION
 
+% ======================
+% Professional Experience
+% ======================
 
 \cvsection{Professional Experience}
 
 EXPERIENCE
+% ======================
+% Internships
+% ======================
 
+\cvsection{Internships}
+
+INTERNSHIPS
+
+
+% ======================
+% Workshops
+% ======================
+
+\cvsection{Workshops}
+
+WORKSHOPS
+
+
+% ======================
+% Projects
+% ======================
 
 \cvsection{Projects}
 
 PROJECTS
 
 
+% ======================
+% Skills
+% ======================
+
 \cvsection{Skills}
 
 SKILLS
 
 
+% ======================
+% Certificates
+% ======================
+
 \cvsection{Certificates}
 
 CERTIFICATES
 
+
+% ======================
+% Languages
+% ======================
 
 \cvsection{Languages}
 

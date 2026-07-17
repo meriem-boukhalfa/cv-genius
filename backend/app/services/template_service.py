@@ -7,12 +7,14 @@ def render_resume(cv, improved):
 
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
+
     # -----------------------------
     # Experience
     # -----------------------------
     experience_tex = ""
 
     for exp in cv.experience:
+
         experience_tex += f"""
 \\experience
 {{{exp.position}}}
@@ -22,12 +24,15 @@ def render_resume(cv, improved):
 {{}}
 """
 
+
+
     # -----------------------------
     # Education
     # -----------------------------
     education_tex = ""
 
     for edu in cv.education:
+
         education_tex += f"""
 \\education
 {{{edu.degree}}}
@@ -38,22 +43,72 @@ def render_resume(cv, improved):
 {{}}
 """
 
+
+
+    # -----------------------------
+    # Internships
+    # -----------------------------
+    internships_tex = ""
+
+    for internship in cv.internships:
+
+        internships_tex += f"""
+\\textbf{{{internship.role}}}
+
+{internship.company}
+
+{internship.location}
+
+{internship.start_date} -- {internship.end_date}
+
+{internship.description}
+
+\\vspace{{0.5cm}}
+"""
+
+
+
+    # -----------------------------
+    # Workshops
+    # -----------------------------
+    workshops_tex = ""
+
+    for workshop in cv.workshops:
+
+        workshops_tex += f"""
+\\textbf{{{workshop.name}}}
+
+{workshop.organization}
+
+{workshop.date}
+
+{workshop.description}
+
+\\vspace{{0.5cm}}
+"""
+
+
+
     # -----------------------------
     # Projects
     # -----------------------------
     projects_tex = ""
 
     for project in cv.projects:
+
         projects_tex += f"""
 \\textbf{{{project.name}}}
 
 \\textit{{{project.role}}}
 
-Technologies: {project.technologies}
+Technologies:
+{project.technologies}
 
-GitHub: {project.github}
+GitHub:
+{project.github}
 
-Demo: {project.demo}
+Demo:
+{project.demo}
 
 {project.start_date} -- {project.end_date}
 
@@ -62,16 +117,29 @@ Demo: {project.demo}
 \\vspace{{0.5cm}}
 """
 
+
+
     # -----------------------------
     # Certificates
     # -----------------------------
     certificates_tex = ""
 
     for cert in cv.certificates:
-        certificates_tex += f"""
-• {cert.name} ({cert.organization}) — {cert.issue_date}
 
+        certificates_tex += f"""
+\\textbf{{{cert.name}}}
+
+{cert.organization}
+
+{cert.issue_date}
+
+Credential:
+{cert.credential}
+
+\\vspace{{0.3cm}}
 """
+
+
 
     # -----------------------------
     # Languages
@@ -79,31 +147,113 @@ Demo: {project.demo}
     languages_tex = ""
 
     for lang in cv.languages:
-        languages_tex += f"{lang.name} — {lang.level}\\\\\n"
+
+        languages_tex += (
+            f"{lang.name} -- {lang.level}\\\\\n"
+        )
+
+
 
     # -----------------------------
     # Skills
     # -----------------------------
-    skills_tex = " \\textbullet\\ ".join(cv.skills)
+    skills_tex = (
+        " \\textbullet\\ ".join(cv.skills)
+    )
+
+
 
     # -----------------------------
-    # Replace
+    # Replace Data
     # -----------------------------
+
     latex = template
 
-    latex = latex.replace("FULL_NAME", cv.full_name)
-    latex = latex.replace("EMAIL", cv.email)
-    latex = latex.replace("PHONE", cv.phone)
-    latex = latex.replace("LOCATION", cv.location)
-    latex = latex.replace("LINKEDIN", cv.linkedin)
-    latex = latex.replace("GITHUB", cv.github)
 
-    latex = latex.replace("SUMMARY", improved["summary"])
-    latex = latex.replace("EDUCATION", education_tex)
-    latex = latex.replace("EXPERIENCE", experience_tex)
-    latex = latex.replace("PROJECTS", projects_tex)
-    latex = latex.replace("CERTIFICATES", certificates_tex)
-    latex = latex.replace("LANGUAGES", languages_tex)
-    latex = latex.replace("SKILLS", skills_tex)
+    latex = latex.replace(
+        "FULL_NAME",
+        cv.full_name
+    )
+
+    latex = latex.replace(
+        "EMAIL",
+        cv.email
+    )
+
+    latex = latex.replace(
+        "PHONE",
+        cv.phone
+    )
+
+    latex = latex.replace(
+        "LOCATION",
+        cv.location
+    )
+
+    latex = latex.replace(
+        "LINKEDIN",
+        cv.linkedin
+    )
+
+    latex = latex.replace(
+        "GITHUB",
+        cv.github
+    )
+
+
+
+    latex = latex.replace(
+        "SUMMARY",
+        improved["summary"]
+    )
+
+
+    latex = latex.replace(
+        "EDUCATION",
+        education_tex
+    )
+
+
+    latex = latex.replace(
+        "EXPERIENCE",
+        experience_tex
+    )
+
+
+    latex = latex.replace(
+        "INTERNSHIPS",
+        internships_tex
+    )
+
+
+    latex = latex.replace(
+        "WORKSHOPS",
+        workshops_tex
+    )
+
+
+    latex = latex.replace(
+        "PROJECTS",
+        projects_tex
+    )
+
+
+    latex = latex.replace(
+        "CERTIFICATES",
+        certificates_tex
+    )
+
+
+    latex = latex.replace(
+        "LANGUAGES",
+        languages_tex
+    )
+
+
+    latex = latex.replace(
+        "SKILLS",
+        skills_tex
+    )
+
 
     return latex
