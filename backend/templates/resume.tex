@@ -1,172 +1,149 @@
 \documentclass[11pt,a4paper]{article}
 
-% ======================
-% Packages
-% ======================
-
-\usepackage[
-a4paper,
-left=1.7cm,
-right=1.7cm,
-top=1.5cm,
-bottom=1.5cm
-]{geometry}
-
+\usepackage[a4paper,left=1.5cm,right=1.5cm,top=1.3cm,bottom=1.3cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{xcolor}
-\usepackage{titlesec}
 \usepackage{hyperref}
+\usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{parskip}
+\usepackage{setspace}
 
-% ======================
-% Colors
-% ======================
-
-\definecolor{sectionblue}{HTML}{0E4F93}
-\definecolor{textblack}{HTML}{000000}
-
-% ======================
-% General Style
-% ======================
+\setstretch{1.0}
 
 \pagestyle{empty}
-
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{4pt}
 
-\color{textblack}
+\definecolor{PrimaryBlue}{HTML}{0F3A66}
+\definecolor{LightGray}{HTML}{666666}
+\definecolor{BorderGray}{HTML}{D0D0D0}
 
-\hypersetup{
-colorlinks=true,
-urlcolor=sectionblue
+\hypersetup{colorlinks=true,urlcolor=PrimaryBlue,linkcolor=PrimaryBlue}
+
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{PrimaryBlue}}
+    {}
+    {0em}
+    {}
+    [\vspace{-2mm}{\color{BorderGray}\hrule}\vspace{3mm}]
+
+\titlespacing*{\section}{0pt}{10pt}{6pt}
+
+\newcommand{\experience}[4]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#3}
+    
+    \noindent{\color{PrimaryBlue}\textit{#2}}
+    
+    #4\vspace{5mm}
 }
 
-% ======================
-% Section Style
-% ======================
-
-\newcommand{\cvsection}[1]{
-
-\vspace{0.35cm}
-
-{\Large\bfseries\color{sectionblue} #1}
-
-\vspace{2mm}
-
-{\color{sectionblue!35}\rule{\linewidth}{0.3pt}}
-
-\vspace{3mm}
-
+\newcommand{\education}[4]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#2}
+    
+    \noindent{\color{PrimaryBlue}\textit{#3}}
+    
+    #4\vspace{5mm}
 }
 
-% ======================
-% Document
-% ======================
+\newcommand{\internship}[4]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#3}
+    
+    \noindent{\color{PrimaryBlue}\textit{#2}}
+    
+    #4\vspace{5mm}
+}
+
+\newcommand{\workshop}[4]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#3}
+    
+    \noindent{\color{PrimaryBlue}\textit{#2}}
+    
+    #4\vspace{5mm}
+}
+
+\newcommand{\project}[7]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#6}
+    
+    \noindent{\small\color{LightGray}#2\quad$\bullet$\quad#3}
+    
+    #7
+    
+    \noindent{\small GitHub: \href{#4}{#4}\quad Demo: \href{#5}{#5}}\vspace{5mm}
+}
+
+\newcommand{\skillbadge}[1]{
+    \colorbox{BorderGray!40}{\small\textbf{\kern3pt#1\kern3pt}}
+    \hspace{3pt}
+}
+
+\newcommand{\certificate}[4]{
+    \noindent\textbf{#1}\hfill{\small\color{LightGray}#2}
+    
+    \noindent{\small#3\quad$\bullet$\quad Credential ID: #4}\vspace{3mm}
+}
+
+\newcommand{\language}[2]{
+    \noindent\textbf{#1}\hfill{\small\color{PrimaryBlue}#2}\vspace{2mm}
+}
 
 \begin{document}
 
-% ======================
-% Header
-% ======================
-
 \begin{center}
-
-{\fontsize{26}{30}\selectfont\textbf{FULL_NAME}}
-
-\vspace{0.3cm}
-
-EMAIL
-\quad | \quad
-PHONE
-\quad | \quad
-LOCATION
-
-\vspace{2mm}
-
-\href{LINKEDIN}{LinkedIn}
-\quad | \quad
-\href{GITHUB}{GitHub}
-
+    {\fontsize{24}{28}\selectfont\bfseries FULL_NAME}
+    
+    \vspace{2mm}
+    
+    {\Large\color{PrimaryBlue}JOB_TITLE}
+    
+    \vspace{4mm}
+    
+    {\small EMAIL\quad$\bullet$\quad PHONE\quad$\bullet$\quad LOCATION}
+    
+    \vspace{2mm}
+    
+    {\small\href{LINKEDIN}{LinkedIn}\quad$\bullet$\quad\href{GITHUB}{GitHub}}
 \end{center}
 
-% ======================
-% Professional Summary
-% ======================
+{\color{BorderGray}\hrule}
 
-\cvsection{Professional Summary}
+\vspace{5mm}
+
+\section*{Professional Summary}
 
 SUMMARY
 
-% ======================
-% Education
-% ======================
+\section*{Professional Experience}
 
-\cvsection{Education}
+EXPERIENCE
+
+\section*{Education}
 
 EDUCATION
 
-% ======================
-% Professional Experience
-% ======================
-
-\cvsection{Professional Experience}
-
-EXPERIENCE
-% ======================
-% Internships
-% ======================
-
-\cvsection{Internships}
+\section*{Internships}
 
 INTERNSHIPS
 
-
-% ======================
-% Workshops
-% ======================
-
-\cvsection{Workshops}
+\section*{Workshops}
 
 WORKSHOPS
 
-
-% ======================
-% Projects
-% ======================
-
-\cvsection{Projects}
+\section*{Projects}
 
 PROJECTS
 
-
-% ======================
-% Skills
-% ======================
-
-\cvsection{Skills}
+\section*{Skills}
 
 SKILLS
 
-
-% ======================
-% Certificates
-% ======================
-
-\cvsection{Certificates}
+\section*{Certificates}
 
 CERTIFICATES
 
-
-% ======================
-% Languages
-% ======================
-
-\cvsection{Languages}
+\section*{Languages}
 
 LANGUAGES
-
 
 \end{document}
