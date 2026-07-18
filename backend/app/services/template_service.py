@@ -7,205 +7,181 @@ def render_resume(cv, improved):
 
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
-    # -----------------------------
-    # Experience
-    # -----------------------------
+    # ============================================
+    # EXPERIENCE
+    # ============================================
+
     experience_tex = ""
 
     for exp in cv.experience:
-        if not (
-            exp.company
-            or exp.position
-            or exp.description
-        ):
+
+        if not exp.position:
             continue
 
         experience_tex += f"""
-\\textbf{{{exp.position}}} \\hfill {exp.start_date} -- {exp.end_date}
-
-{exp.company} - {exp.location}
-
-{exp.description}
-
-\\vspace{{0.3cm}}
+\\experience
+{{{exp.position}}}
+{{{exp.start_date} -- {exp.end_date}}}
+{{{exp.company} - {exp.location}}}
+{{{exp.description}}}
 """
 
-    # -----------------------------
-    # Education
-    # -----------------------------
+    # ============================================
+    # EDUCATION
+    # ============================================
+
     education_tex = ""
 
     for edu in cv.education:
-        if not (
-            edu.university
-            or edu.degree
-            or edu.description
-        ):
+
+        if not edu.degree:
             continue
 
         education_tex += f"""
-\\textbf{{{edu.degree}}} \\hfill {edu.start_date} -- {edu.end_date}
-
-{edu.university}
-
-{edu.field}
-
-{edu.location}
-
-{edu.description}
-
-\\vspace{{0.3cm}}
+\\education
+{{{edu.degree}}}
+{{{edu.start_date} -- {edu.end_date}}}
+{{{edu.university}}}
+{{{edu.field}}}
+{{{edu.description}}}
 """
 
-    # -----------------------------
-    # Internships
-    # -----------------------------
+    # ============================================
+    # INTERNSHIPS
+    # ============================================
+
     internships_tex = ""
 
     for internship in cv.internships:
-        if not (
-            internship.company
-            or internship.role
-            or internship.description
-        ):
+
+        if not internship.role:
             continue
 
         internships_tex += f"""
-\\textbf{{{internship.role}}}
-
-{internship.company}
-
-{internship.location}
-
-{internship.start_date} -- {internship.end_date}
-
-{internship.description}
-
-\\vspace{{0.3cm}}
+\\internship
+{{{internship.role}}}
+{{{internship.start_date} -- {internship.end_date}}}
+{{{internship.company}}}
+{{{internship.description}}}
 """
 
-    # -----------------------------
-    # Workshops
-    # -----------------------------
+    # ============================================
+    # WORKSHOPS
+    # ============================================
+
     workshops_tex = ""
 
     for workshop in cv.workshops:
-        if not (
-            workshop.name
-            or workshop.organization
-            or workshop.description
-        ):
+
+        if not workshop.name:
             continue
 
         workshops_tex += f"""
-\\textbf{{{workshop.name}}}
-
-{workshop.organization}
-
-{workshop.date}
-
-{workshop.description}
-
-\\vspace{{0.3cm}}
+\\workshop
+{{{workshop.name}}}
+{{{workshop.date}}}
+{{{workshop.organization}}}
+{{{workshop.description}}}
 """
+    # ============================================
+    # PROJECTS
+    # ============================================
 
-    # -----------------------------
-    # Projects
-    # -----------------------------
     projects_tex = ""
 
     for project in cv.projects:
-        if not (
-            project.name
-            or project.role
-            or project.description
-        ):
+
+        if not project.name:
             continue
 
         projects_tex += f"""
-\\textbf{{{project.name}}}
-
-Role: {project.role}
-
-Technologies: {project.technologies}
-
-GitHub: {project.github}
-
-Demo: {project.demo}
-
-{project.start_date} -- {project.end_date}
-
-{project.description}
-
-\\vspace{{0.3cm}}
+\\project
+{{{project.name}}}
+{{{project.role}}}
+{{{project.technologies}}}
+{{{project.github}}}
+{{{project.demo}}}
+{{{project.start_date} -- {project.end_date}}}
+{{{project.description}}}
 """
 
-    # -----------------------------
-    # Certificates
-    # -----------------------------
-    certificates_tex = ""
+    # ============================================
+    # SKILLS
+    # ============================================
 
-    for cert in cv.certificates:
-        if not (
-            cert.name
-            or cert.organization
-        ):
-            continue
-
-        certificates_tex += f"""
-\\textbf{{{cert.name}}}
-
-{cert.organization}
-
-{cert.issue_date}
-
-Credential: {cert.credential}
-
-\\vspace{{0.3cm}}
-"""
-
-    # -----------------------------
-    # Languages
-    # -----------------------------
-    languages_tex = ""
-
-    for lang in cv.languages:
-        if not lang.name:
-            continue
-
-        languages_tex += (
-            f"{lang.name} - {lang.level}\\\\\n"
-        )
-
-    # -----------------------------
-    # Skills
-    # -----------------------------
     skills_tex = ""
 
     if cv.skills:
-        skills_tex = " • ".join(cv.skills)
 
-    # -----------------------------
-    # Replace placeholders
-    # -----------------------------
+        for skill in cv.skills:
+
+            if skill.strip():
+
+                skills_tex += f"\\skillbadge{{{skill}}}"
+
+    # ============================================
+    # CERTIFICATES
+    # ============================================
+
+    certificates_tex = ""
+
+    for cert in cv.certificates:
+
+        if not cert.name:
+            continue
+
+        certificates_tex += f"""
+\\certificate
+{{{cert.name}}}
+{{{cert.issue_date}}}
+{{{cert.organization}}}
+{{{cert.credential}}}
+"""
+
+    # ============================================
+    # LANGUAGES
+    # ============================================
+
+    languages_tex = ""
+
+    for lang in cv.languages:
+
+        if not lang.name:
+            continue
+
+        languages_tex += f"""
+\\cvlanguage
+{{{lang.name}}}
+{{{lang.level}}}
+"""
+    # ============================================
+    # REPLACE PLACEHOLDERS
+    # ============================================
+
     latex = template
 
-    latex = latex.replace("FULL_NAME", cv.full_name)
-    latex = latex.replace("EMAIL", cv.email)
-    latex = latex.replace("PHONE", cv.phone)
-    latex = latex.replace("LOCATION", cv.location)
-    latex = latex.replace("LINKEDIN", cv.linkedin)
-    latex = latex.replace("GITHUB", cv.github)
+    latex = latex.replace("FULL_NAME", cv.full_name or "")
+    latex = latex.replace("JOB_TITLE", cv.job_title or "")
 
-    latex = latex.replace("SUMMARY", improved["summary"])
+    latex = latex.replace("EMAIL", cv.email or "")
+    latex = latex.replace("PHONE", cv.phone or "")
+    latex = latex.replace("LOCATION", cv.location or "")
 
-    latex = latex.replace("EDUCATION", education_tex)
+    latex = latex.replace("LINKEDIN", cv.linkedin or "#")
+    latex = latex.replace("GITHUB", cv.github or "#")
+
+    latex = latex.replace(
+    "SUMMARY",
+    improved.get("summary") or ""
+    )
+
     latex = latex.replace("EXPERIENCE", experience_tex)
+    latex = latex.replace("EDUCATION", education_tex)
     latex = latex.replace("INTERNSHIPS", internships_tex)
     latex = latex.replace("WORKSHOPS", workshops_tex)
     latex = latex.replace("PROJECTS", projects_tex)
+    latex = latex.replace("SKILLS", skills_tex)
     latex = latex.replace("CERTIFICATES", certificates_tex)
     latex = latex.replace("LANGUAGES", languages_tex)
-    latex = latex.replace("SKILLS", skills_tex)
 
     return latex
