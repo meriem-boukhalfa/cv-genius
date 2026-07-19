@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import Footer from "./components/Footer";
+
 
 import CreateResume from "./pages/CreateResume";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
