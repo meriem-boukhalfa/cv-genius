@@ -4,6 +4,7 @@ import {
   Paper,
   Typography,
   Box,
+  CircularProgress,
 } from "@mui/material";
 
 import DashboardLayout from "../layout/DashboardLayout";
@@ -29,60 +30,67 @@ export default function CreateResume() {
     github: "",
     job_title: "",
     summary: "",
+
     education: [
-  {
-    university: "",
-    degree: "",
-    field: "",
-    location: "",
-    start_date: "",
-    end_date: "",
-    description: "",
-  },
-],
+      {
+        university: "",
+        degree: "",
+        field: "",
+        location: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
+    ],
+
     certificates: [
-  {
-    name: "",
-    organization: "",
-    issue_date: "",
-    credential: "",
-  },
-],
+      {
+        name: "",
+        organization: "",
+        issue_date: "",
+        credential: "",
+      },
+    ],
+
     experience: [
-  {
-    company: "",
-    position: "",
-    location: "",
-    start_date: "",
-    end_date: "",
-    description: "",
-  },
-],
-    
+      {
+        company: "",
+        position: "",
+        location: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
+    ],
+
     skills: [],
+
     languages: [
-  {
-    name: "",
-    level: "",
-  },
-],
+      {
+        name: "",
+        level: "",
+      },
+    ],
+
     projects: [
-  {
-    name: "",
-    role: "",
-    technologies: "",
-    github: "",
-    demo: "",
-    start_date: "",
-    end_date: "",
-    description: "",
-  },
-],
-   internships: [],
-   workshops: [],
+      {
+        name: "",
+        role: "",
+        technologies: "",
+        github: "",
+        demo: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
+    ],
+
+    internships: [],
+    workshops: [],
   });
 
   const [latex, setLatex] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setCv({
@@ -93,78 +101,130 @@ export default function CreateResume() {
 
   const generateResume = async () => {
     try {
-    // إنشاء الـ CV
-       const response = await api.post("/generate-cv", cv);
+      setLoading(true);
 
-       setLatex(response.data.latex);
+      const response = await api.post("/generate-cv", cv);
 
-    // تحميل الـ PDF
-       const pdfResponse = await api.get("/download-pdf", {
-       responseType: "blob",
-    });
+      setLatex(response.data.latex);
 
-       const url = window.URL.createObjectURL(pdfResponse.data);
+      const pdfResponse = await api.get("/download-pdf", {
+        responseType: "blob",
+      });
 
-       const link = document.createElement("a");
-       link.href = url;
-       link.download = "resume.pdf";
+      const url = window.URL.createObjectURL(pdfResponse.data);
 
-       document.body.appendChild(link);
-       link.click();
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "resume.pdf";
 
-       document.body.removeChild(link);
-       window.URL.revokeObjectURL(url);
+      document.body.appendChild(link);
+      link.click();
 
-       alert("Resume generated successfully!");
+      document.body.removeChild(link);
 
-  }    catch (error) {
-       console.error(error);
-       alert("Something went wrong.");
+      window.URL.revokeObjectURL(url);
+
+      setLoading(false);
+
+      alert("Resume generated successfully!");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      alert("Something went wrong.");
+    }
+  };
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <Box
+          sx={{
+            minHeight: "80vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            px: 3,
+          }}
+        >
+          <CircularProgress size={70} />
+
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            mt={4}
+          >
+            Your Resume Is Being Generated
+          </Typography>
+
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            mt={2}
+            maxWidth={600}
+          >
+            Our AI is creating your professional ATS-friendly resume.
+            Please wait a few seconds while we prepare your PDF.
+          </Typography>
+
+          <Box mt={5}>
+            <Typography>✅ Optimizing resume content</Typography>
+            <Typography>✅ Improving ATS compatibility</Typography>
+            <Typography>✅ Generating professional PDF</Typography>
+          </Box>
+        </Box>
+      </DashboardLayout>
+    );
   }
-};
+
   return (
     <DashboardLayout>
-       <PersonalInfo
+      <PersonalInfo
         cv={cv}
         handleChange={handleChange}
       />
-      
+
       <Experience
-       cv={cv}
-       setCv={setCv}
+        cv={cv}
+        setCv={setCv}
       />
 
       <Education
         cv={cv}
         setCv={setCv}
       />
+
       <Certificates
         cv={cv}
         setCv={setCv}
       />
+
       <Languages
-         cv={cv}
-         setCv={setCv}
+        cv={cv}
+        setCv={setCv}
       />
+
       <Skills
         cv={cv}
         setCv={setCv}
       />
 
       <Projects
-         cv={cv}
-         setCv={setCv}
-
+        cv={cv}
+        setCv={setCv}
       />
+
       <Internships
         cv={cv}
         setCv={setCv}
       />
 
-     <Workshops
+      <Workshops
         cv={cv}
         setCv={setCv}
-    />
+      />
+
       <GenerateButton onClick={generateResume} />
 
       {latex && (
