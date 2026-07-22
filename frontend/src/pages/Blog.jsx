@@ -66,6 +66,171 @@ const POSTS = [
     featured: false,
     color: "#F97316",
   },
+  {
+    id: 4,
+    title: "Keywords That Pass ATS Systems",
+    category: "ATS",
+    date: "June 2026",
+    readTime: 5,
+    description:
+      "Master the right keywords and phrases to include in your resume to beat ATS filters and get noticed by recruiters.",
+    featured: false,
+    color: "#60A5FA",
+  },
+  {
+    id: 5,
+    title: "Resume Format: Chronological vs Functional",
+    category: "Resume",
+    date: "June 2026",
+    readTime: 6,
+    description:
+      "Understand the pros and cons of different resume formats and choose the best one for your career situation.",
+    featured: false,
+    color: "#2BE6C1",
+  },
+  {
+    id: 6,
+    title: "How to Answer 'Tell Me About Yourself'",
+    category: "Interview",
+    date: "June 2026",
+    readTime: 5,
+    description:
+      "Craft a compelling 60-second response that showcases your strengths and captures the interviewer's attention.",
+    featured: false,
+    color: "#EC4899",
+  },
+  {
+    id: 7,
+    title: "Salary Negotiation Strategies",
+    category: "Career",
+    date: "May 2026",
+    readTime: 7,
+    description:
+      "Learn proven tactics to negotiate your salary confidently and get what you deserve in your new role.",
+    featured: false,
+    color: "#F97316",
+  },
+  {
+    id: 8,
+    title: "AI Tools That Improve Your Resume",
+    category: "AI",
+    date: "May 2026",
+    readTime: 4,
+    description:
+      "Discover cutting-edge AI tools and apps that help optimize your resume and increase your job search success.",
+    featured: false,
+    color: "#8B5CF6",
+  },
+  {
+    id: 9,
+    title: "Common Interview Questions & Answers",
+    category: "Interview",
+    date: "May 2026",
+    readTime: 8,
+    description:
+      "Prepare for your interview with detailed answers to the top 15 questions hiring managers always ask.",
+    featured: false,
+    color: "#EC4899",
+  },
+  {
+    id: 10,
+    title: "How to Use AI to Build Your Resume",
+    category: "AI",
+    date: "April 2026",
+    readTime: 5,
+    description:
+      "Step-by-step guide on using ChatGPT and other AI tools to write impactful resume content quickly.",
+    featured: false,
+    color: "#8B5CF6",
+  },
+  {
+    id: 11,
+    title: "Resume Action Verbs That Stand Out",
+    category: "Resume",
+    date: "April 2026",
+    readTime: 4,
+    description:
+      "Replace weak verbs with powerful action words that grab recruiter attention and showcase your achievements.",
+    featured: false,
+    color: "#2BE6C1",
+  },
+  {
+    id: 12,
+    title: "Career Pivot: Switching Industries",
+    category: "Career",
+    date: "April 2026",
+    readTime: 7,
+    description:
+      "Complete guide to successfully transitioning to a new industry while highlighting your transferable skills.",
+    featured: false,
+    color: "#F97316",
+  },
+  {
+    id: 13,
+    title: "Body Language Tips for Interviews",
+    category: "Interview",
+    date: "March 2026",
+    readTime: 5,
+    description:
+      "Master non-verbal communication to make a lasting positive impression during your job interview.",
+    featured: false,
+    color: "#EC4899",
+  },
+  {
+    id: 14,
+    title: "ATS Scanners Explained: What They Look For",
+    category: "ATS",
+    date: "March 2026",
+    readTime: 6,
+    description:
+      "Deep dive into how applicant tracking systems work and what formatting changes can help your resume rank higher.",
+    featured: false,
+    color: "#60A5FA",
+  },
+  {
+    id: 15,
+    title: "Personal Brand: Build Your Professional Profile",
+    category: "Career",
+    date: "March 2026",
+    readTime: 6,
+    description:
+      "Create a strong personal brand on LinkedIn and other platforms to attract recruiters and career opportunities.",
+    featured: false,
+    color: "#F97316",
+  },
+  {
+    id: 16,
+    title: "Automating Your Job Search with AI",
+    category: "AI",
+    date: "February 2026",
+    readTime: 6,
+    description:
+      "Leverage AI tools to automate job applications and research companies more efficiently.",
+    featured: false,
+    color: "#8B5CF6",
+  },
+  {
+    id: 17,
+    title: "Cover Letter Secrets Recruiters Love",
+    category: "Resume",
+    date: "February 2026",
+    readTime: 5,
+    description:
+      "Write a cover letter that complements your resume and gets you noticed before the interview.",
+    featured: false,
+    color: "#2BE6C1",
+  },
+  {
+    id: 18,
+    title: "STAR Method: Answer Behavioral Questions",
+    category: "Interview",
+    date: "February 2026",
+    readTime: 5,
+    description:
+      "Master the STAR technique to answer behavioral interview questions like a pro and tell compelling stories.",
+    featured: false,
+    color: "#EC4899",
+  },
 ];
 
 // Featured Article Component
