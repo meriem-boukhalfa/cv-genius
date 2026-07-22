@@ -69,7 +69,7 @@ const POSTS = [
 ];
 
 // Featured Article Component
-function FeaturedArticle({ post }) {
+function FeaturedArticle({ post, onCategoryClick }) {
   return (
     <Card
       sx={{
@@ -114,11 +114,17 @@ function FeaturedArticle({ post }) {
                 icon={CATEGORY_ICONS[post.category]}
                 label={post.category}
                 size="small"
+                onClick={() => onCategoryClick(post.category)}
                 sx={{
                   background: `${post.color}20`,
                   color: post.color,
                   fontWeight: 600,
                   mb: 2,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  "&:hover": {
+                    background: `${post.color}35`,
+                  },
                 }}
               />
 
@@ -172,7 +178,7 @@ function FeaturedArticle({ post }) {
 }
 
 // Post Grid Card Component
-function PostGridCard({ post }) {
+function PostGridCard({ post, onCategoryClick }) {
   return (
     <Card
       sx={{
@@ -217,11 +223,17 @@ function PostGridCard({ post }) {
             icon={CATEGORY_ICONS[post.category]}
             label={post.category}
             size="small"
+            onClick={() => onCategoryClick(post.category)}
             sx={{
               background: `${post.color}15`,
               color: post.color,
               fontWeight: 600,
               height: 28,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              "&:hover": {
+                background: `${post.color}30`,
+              },
             }}
           />
         </Stack>
@@ -275,6 +287,54 @@ function PostGridCard({ post }) {
         </Stack>
       </CardContent>
     </Card>
+  );
+}
+
+// Related Articles Component
+function RelatedArticles({ currentPost, allPosts, onCategoryClick }) {
+  const relatedPosts = allPosts
+    .filter((p) => p.category === currentPost.category && p.id !== currentPost.id)
+    .slice(0, 3);
+
+  if (relatedPosts.length === 0) return null;
+
+  return (
+    <Box sx={{ mt: 10, pt: 6, borderTop: "1px solid #e0e0e0" }}>
+      <Typography
+        variant="h5"
+        fontWeight="700"
+        sx={{ mb: 4, color: "#1a1a1a" }}
+      >
+        More from {currentPost.category}
+      </Typography>
+
+      <Grid container spacing={3}>
+        {relatedPosts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} key={post.id}>
+            <PostGridCard post={post} onCategoryClick={onCategoryClick} />
+          </Grid>
+        ))}
+      </Grid>
+
+      <Box sx={{ mt: 4, textAlign: "center" }}>
+        <Button
+          variant="outlined"
+          onClick={() => onCategoryClick(currentPost.category)}
+          sx={{
+            borderColor: currentPost.color,
+            color: currentPost.color,
+            textTransform: "none",
+            fontWeight: 600,
+            "&:hover": {
+              borderColor: currentPost.color,
+              background: `${currentPost.color}10`,
+            },
+          }}
+        >
+          View all {currentPost.category} articles →
+        </Button>
+      </Box>
+    </Box>
   );
 }
 
@@ -420,6 +480,11 @@ export default function Blog() {
   const [searchValue, setSearchValue] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
 
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setSearchValue("");
+  };
+
   const filteredPosts = useMemo(() => {
     return POSTS.filter((post) => {
       const matchesSearch =
@@ -443,18 +508,23 @@ export default function Blog() {
 
         <CategoryFilter
           activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
+          onCategoryChange={handleCategoryClick}
         />
 
         {/* Featured Article */}
-        {featuredPost && <FeaturedArticle post={featuredPost} />}
+        {featuredPost && (
+          <FeaturedArticle post={featuredPost} onCategoryClick={handleCategoryClick} />
+        )}
 
         {/* Articles Grid */}
         {regularPosts.length > 0 ? (
           <Grid container spacing={3}>
             {regularPosts.map((post) => (
               <Grid item xs={12} sm={6} md={4} key={post.id}>
-                <PostGridCard post={post} />
+                <PostGridCard 
+                  post={post} 
+                  onCategoryClick={handleCategoryClick}
+                />
               </Grid>
             ))}
           </Grid>
@@ -467,6 +537,15 @@ export default function Blog() {
               Try adjusting your search or filters.
             </Typography>
           </Box>
+        )}
+
+        {/* Related Articles Section - Show when viewing a specific category */}
+        {activeCategory && featuredPost && (
+          <RelatedArticles 
+            currentPost={featuredPost} 
+            allPosts={POSTS}
+            onCategoryClick={handleCategoryClick}
+          />
         )}
       </Container>
     </Box>
