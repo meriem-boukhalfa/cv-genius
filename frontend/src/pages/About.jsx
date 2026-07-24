@@ -63,25 +63,12 @@ export default function About() {
 
   const team = [
     {
-      name: "Sarah Johnson",
+      name: "Boukhalfa Meriem",
       role: "Founder & CEO",
       color: "#2BE6C1",
     },
-    {
-      name: "Michael Chen",
-      role: "Lead Designer",
-      color: "#60A5FA",
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "AI Specialist",
-      color: "#F97316",
-    },
-    {
-      name: "David Park",
-      role: "Head of Product",
-      color: "#8B5CF6",
-    },
+   
+    
   ];
 
   return (
