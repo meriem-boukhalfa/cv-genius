@@ -8,24 +8,24 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-import SparklesIcon from "@mui/icons-material/Sparkles";
+
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import SecurityIcon from "@mui/icons-material/Security";
-import ThumbsUpIcon from "@mui/icons-material/ThumbsUp";
-import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import BoltIcon from "@mui/icons-material/Bolt";
 import GroupIcon from "@mui/icons-material/Group";
 
 export default function About() {
   const features = [
     {
-      icon: <SparklesIcon sx={{ fontSize: 40 }} />,
+      icon: <AutoAwesomeIcon  sx={{ fontSize: 40 }} />,
       title: "AI-Powered",
       description:
         "Advanced AI technology helps you create professional resumes in minutes, not hours.",
       color: "#2BE6C1",
     },
     {
-      icon: <SecurityIcon sx={{ fontSize: 40 }} />,
+      icon: <AutoAwesomeIcon  sx={{ fontSize: 40 }} />,
       title: "ATS-Friendly",
       description:
         "Our templates are designed to pass Applicant Tracking Systems with 100% accuracy.",
@@ -39,14 +39,14 @@ export default function About() {
       color: "#F97316",
     },
     {
-      icon: <ElectricBoltIcon sx={{ fontSize: 40 }} />,
+      icon: <BoltIcon sx={{ fontSize: 40 }} />,
       title: "Lightning Fast",
       description:
         "Create and download your resume in seconds. No complicated processes.",
       color: "#8B5CF6",
     },
     {
-      icon: <ThumbsUpIcon sx={{ fontSize: 40 }} />,
+      icon: <ThumbUpIcon sx={{ fontSize: 40 }} />,
       title: "Professional Templates",
       description:
         "Choose from beautifully designed templates trusted by thousands of professionals.",
@@ -137,7 +137,7 @@ export default function About() {
                 justifyContent: "center",
               }}
             >
-              <SparklesIcon sx={{ fontSize: 120, color: "white", opacity: 0.3 }} />
+              <AutoAwesomeIcon sx={{ fontSize: 120, color: "white", opacity: 0.3 }} />
             </Box>
           </Grid>
 
