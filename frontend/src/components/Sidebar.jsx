@@ -8,6 +8,7 @@ import {
   Tooltip,
   Chip,
   Stack,
+  Grid,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -129,60 +130,52 @@ function SidebarSection({ title, icon, children, color = "#2BE6C1" }) {
 function TechnologiesSection() {
   return (
     <SidebarSection title="Technologies Used" icon={<CodeIcon />} color="#2BE6C1">
-      <Stack 
-        direction="row" 
-        spacing={1.5} 
-        flexWrap="wrap" 
-        justifyContent="center"
-        sx={{
-          gap: 1.5,
-        }}
-      >
+      <Grid container spacing={1.5}>
         {TECHNOLOGIES.map((tech, index) => (
-          <Tooltip key={index} title={tech.name} arrow>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 0.8,
-                px: 2,
-                py: 1,
-                borderRadius: 3,
-                background: `${tech.color}08`,
-                border: `2px solid ${tech.borderColor}`,
-                color: tech.color,
-                fontWeight: 700,
-                fontSize: 13,
-                cursor: "pointer",
-                transition: "all 0.3s cubic-bezier(0.23, 1, 0.320, 1)",
-                whiteSpace: "nowrap",
-                "&:hover": {
-                  background: `${tech.color}15`,
-                  borderColor: tech.color,
-                  boxShadow: `0 8px 16px ${tech.color}25`,
-                  transform: "translateY(-2px)",
-                },
-                "&:active": {
-                  transform: "translateY(0)",
-                },
-              }}
-            >
-              <Box sx={{ fontSize: 18 }}>{tech.icon}</Box>
-              <Typography
+          <Grid item xs={6} key={index}>
+            <Tooltip title={tech.name} arrow>
+              <Box
                 sx={{
-                  fontWeight: 700,
-                  fontSize: 13,
-                  background: `linear-gradient(135deg, ${tech.color}, ${tech.color}dd)`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 1,
+                  p: 1.5,
+                  borderRadius: 1.5,
+                  background: `${tech.color}08`,
+                  border: `2px solid ${tech.borderColor}`,
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                  "&:hover": {
+                    background: `${tech.color}15`,
+                    borderColor: tech.color,
+                    boxShadow: `0 8px 16px ${tech.color}25`,
+                    transform: "translateY(-2px)",
+                  },
+                  "&:active": {
+                    transform: "translateY(0)",
+                  },
                 }}
               >
-                {tech.name}
-              </Typography>
-            </Box>
-          </Tooltip>
+                <Box sx={{ fontSize: 24 }}>{tech.icon}</Box>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: 12,
+                    background: `linear-gradient(135deg, ${tech.color}, ${tech.color}dd)`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textAlign: "center",
+                  }}
+                >
+                  {tech.name}
+                </Typography>
+              </Box>
+            </Tooltip>
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
     </SidebarSection>
   );
 }
