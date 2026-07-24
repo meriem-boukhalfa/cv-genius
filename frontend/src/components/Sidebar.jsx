@@ -25,10 +25,30 @@ const APP_NAME = "CV Genius";
 const APP_YEAR = "2026";
 
 const TECHNOLOGIES = [
-  { icon: "⚛️", name: "React", color: "#61DAFB" },
-  { icon: "⚡", name: "FastAPI", color: "#009688" },
-  { icon: "🤖", name: "AI", color: "#2BE6C1" },
-  { icon: "📄", name: "LaTeX", color: "#F97316" },
+  { 
+    icon: "⚛️", 
+    name: "React", 
+    color: "#61DAFB",
+    borderColor: "#61DAFB60",
+  },
+  { 
+    icon: "⚡", 
+    name: "FastAPI", 
+    color: "#10B981",
+    borderColor: "#10B98160",
+  },
+  { 
+    icon: "🤖", 
+    name: "AI", 
+    color: "#2BE6C1",
+    borderColor: "#2BE6C160",
+  },
+  { 
+    icon: "📄", 
+    name: "LaTeX", 
+    color: "#F97316",
+    borderColor: "#F9731660",
+  },
 ];
 
 const LANGUAGES = [
@@ -109,24 +129,57 @@ function SidebarSection({ title, icon, children, color = "#2BE6C1" }) {
 function TechnologiesSection() {
   return (
     <SidebarSection title="Technologies Used" icon={<CodeIcon />} color="#2BE6C1">
-      <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center">
+      <Stack 
+        direction="row" 
+        spacing={1.5} 
+        flexWrap="wrap" 
+        justifyContent="center"
+        sx={{
+          gap: 1.5,
+        }}
+      >
         {TECHNOLOGIES.map((tech, index) => (
           <Tooltip key={index} title={tech.name} arrow>
-            <Chip
-              label={tech.icon + " " + tech.name}
+            <Box
               sx={{
-                background: `${tech.color}15`,
+                display: "flex",
+                alignItems: "center",
+                gap: 0.8,
+                px: 2,
+                py: 1,
+                borderRadius: 3,
+                background: `${tech.color}08`,
+                border: `2px solid ${tech.borderColor}`,
                 color: tech.color,
-                fontWeight: 600,
-                fontSize: 12,
-                height: 28,
-                border: `1px solid ${tech.color}40`,
+                fontWeight: 700,
+                fontSize: 13,
+                cursor: "pointer",
+                transition: "all 0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                whiteSpace: "nowrap",
                 "&:hover": {
-                  background: `${tech.color}25`,
+                  background: `${tech.color}15`,
                   borderColor: tech.color,
+                  boxShadow: `0 8px 16px ${tech.color}25`,
+                  transform: "translateY(-2px)",
+                },
+                "&:active": {
+                  transform: "translateY(0)",
                 },
               }}
-            />
+            >
+              <Box sx={{ fontSize: 18 }}>{tech.icon}</Box>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: 13,
+                  background: `linear-gradient(135deg, ${tech.color}, ${tech.color}dd)`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                {tech.name}
+              </Typography>
+            </Box>
           </Tooltip>
         ))}
       </Stack>
