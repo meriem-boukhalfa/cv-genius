@@ -12,15 +12,13 @@ import {
   useMediaQuery,
   Tooltip,
 } from "@mui/material";
-import {
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  Business,
-  Briefcase,
-  LocationOn,
-  DateRange,
-  Description,
-} from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BusinessIcon from "@mui/icons-material/Business";
+import WorkIcon from "@mui/icons-material/Work";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import DescriptionIcon from "@mui/icons-material/Description";
 import CVCard from "./CVCard";
 
 export default function Experience({ cv, setCv }) {
@@ -204,7 +202,7 @@ export default function Experience({ cv, setCv }) {
                               mr: 1,
                             }}
                           >
-                            <Business sx={{ color: "#a855f7" }} />
+                            <BusinessIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -278,7 +276,7 @@ export default function Experience({ cv, setCv }) {
                               mr: 1,
                             }}
                           >
-                            <Briefcase sx={{ color: "#a855f7" }} />
+                            <WorkIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -352,7 +350,7 @@ export default function Experience({ cv, setCv }) {
                               mr: 1,
                             }}
                           >
-                            <LocationOn sx={{ color: "#a855f7" }} />
+                            <LocationOnIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -432,7 +430,7 @@ export default function Experience({ cv, setCv }) {
                               mr: 1,
                             }}
                           >
-                            <DateRange sx={{ color: "#a855f7" }} />
+                            <DateRangeIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -516,7 +514,7 @@ export default function Experience({ cv, setCv }) {
                               mr: 1,
                             }}
                           >
-                            <DateRange sx={{ color: "#a855f7" }} />
+                            <DateRangeIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -597,7 +595,7 @@ export default function Experience({ cv, setCv }) {
                               background: "rgba(168, 85, 247, 0.1)",
                             }}
                           >
-                            <Description sx={{ color: "#a855f7" }} />
+                            <DescriptionIcon sx={{ color: "#a855f7" }} />
                           </Box>
                         </InputAdornment>
                       ),
@@ -660,7 +658,7 @@ export default function Experience({ cv, setCv }) {
             mb: 3,
           }}
         >
-          <Briefcase
+          <WorkIcon
             sx={{
               fontSize: 48,
               color: "#a855f7",
