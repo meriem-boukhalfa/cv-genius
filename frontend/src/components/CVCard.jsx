@@ -1,37 +1,46 @@
+
+
 import { Card, CardContent, CardHeader, Box, Divider, useTheme, useMediaQuery } from "@mui/material";
 import { forwardRef, useMemo } from "react";
 
 // ============================================
-// PROFESSIONAL CV CARD COMPONENT
+// MAIN COMPONENT
 // ============================================
 
 const CVCard = forwardRef(
   (
     {
+      // ============================================
+      // PROPS
+      // ============================================
       children,
-      variant = "default",
-      color = "blue",
-      title,
-      subtitle,
-      icon,
-      action,
-      footer,
-      divider = false,
-      interactive = true,
-      shadow = "medium",
-      hoverEffect = true,
-      elevation = true,
-      animated = true,
+      variant = "default",        // default, elevated, glass, minimal, gradient, soft
+      color = "blue",             // blue, purple, green, pink, amber, slate
+      title,                       // Card title
+      subtitle,                    // Card subtitle
+      icon,                        // Icon component
+      action,                      // Action button/menu
+      footer,                      // Footer content
+      divider = false,             // Show divider
+      interactive = true,          // Enable interactions
+      shadow = "medium",           // none, light, medium, heavy, xl
+      hoverEffect = true,          // Enable hover effects
+      elevation = true,            // Enable elevation
+      animated = true,             // Enable animations
     },
     ref
   ) => {
+    // ============================================
+    // RESPONSIVE HOOKS
+    // ============================================
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));      // 📱 < 600px
+    const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md")); // 📱 600-960px
+    const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));       // 🖥️ >= 1280px
 
     // ============================================
-    // COLOR SCHEMES WITH PROFESSIONAL GRADIENTS
+    // COLOR SCHEMES
     // ============================================
-
     const colorSchemes = useMemo(
       () => ({
         blue: {
@@ -95,21 +104,27 @@ const CVCard = forwardRef(
     const currentColor = colorSchemes[color] || colorSchemes.blue;
 
     // ============================================
-    // SHADOW VARIANTS
+    // RESPONSIVE SHADOWS
     // ============================================
-
     const shadowVariants = {
       none: "none",
-      light: "0 4px 16px rgba(0, 0, 0, 0.05)",
-      medium: "0 12px 32px rgba(0, 0, 0, 0.08)",
-      heavy: "0 20px 48px rgba(0, 0, 0, 0.12)",
-      xl: "0 24px 64px rgba(0, 0, 0, 0.15)",
+      light: isMobile
+        ? "0 2px 8px rgba(0, 0, 0, 0.04)"
+        : "0 4px 16px rgba(0, 0, 0, 0.05)",
+      medium: isMobile
+        ? "0 4px 12px rgba(0, 0, 0, 0.06)"
+        : "0 12px 32px rgba(0, 0, 0, 0.08)",
+      heavy: isMobile
+        ? "0 8px 24px rgba(0, 0, 0, 0.08)"
+        : "0 20px 48px rgba(0, 0, 0, 0.12)",
+      xl: isMobile
+        ? "0 12px 32px rgba(0, 0, 0, 0.1)"
+        : "0 24px 64px rgba(0, 0, 0, 0.15)",
     };
 
     // ============================================
     // VARIANT STYLES
     // ============================================
-
     const getVariantStyles = () => {
       const baseStyles = {
         transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
@@ -132,7 +147,9 @@ const CVCard = forwardRef(
             ...baseStyles,
             background: "rgba(255, 255, 255, 0.7)",
             border: `1px solid rgba(255, 255, 255, 0.5)`,
-            boxShadow: `inset 0 0 24px ${currentColor.glowLight}, ${shadowVariants[shadow] || shadowVariants.medium}`,
+            boxShadow: `inset 0 0 24px ${currentColor.glowLight}, ${
+              shadowVariants[shadow] || shadowVariants.medium
+            }`,
             backdropFilter: "blur(20px)",
           };
 
@@ -160,7 +177,7 @@ const CVCard = forwardRef(
             boxShadow: shadowVariants.light,
           };
 
-        default: // "default"
+        default:
           return {
             ...baseStyles,
             background: currentColor.gradient,
@@ -172,13 +189,17 @@ const CVCard = forwardRef(
 
     const variantStyles = getVariantStyles();
 
+    // ============================================
+    // RENDER
+    // ============================================
+
     return (
       <Card
         ref={ref}
-        elevation={elevation ? (isMobile ? 2 : 3) : 0}
+        elevation={elevation ? (isMobile ? 1 : isTablet ? 2 : 3) : 0}
         sx={{
-          borderRadius: { xs: "16px", sm: "20px", md: "24px" },
-          mb: 3,
+          borderRadius: { xs: "12px", sm: "16px", md: "20px", lg: "24px" },
+          mb: { xs: 2, sm: 2.5, md: 3 },
           ...variantStyles,
 
           // ============================================
@@ -189,14 +210,14 @@ const CVCard = forwardRef(
               "&::before": {
                 content: '""',
                 position: "absolute",
-                width: { xs: 150, sm: 200, md: 260 },
-                height: { xs: 150, sm: 200, md: 260 },
+                width: { xs: 100, sm: 150, md: 200, lg: 260 },
+                height: { xs: 100, sm: 150, md: 200, lg: 260 },
                 borderRadius: "50%",
                 background: currentColor.glow,
-                filter: "blur(120px)",
-                opacity: 0.1,
-                top: { xs: -80, md: -120 },
-                right: { xs: -80, md: -120 },
+                filter: isMobile ? "blur(80px)" : "blur(120px)",
+                opacity: isMobile ? 0.05 : 0.1,
+                top: { xs: -60, sm: -80, md: -100, lg: -120 },
+                right: { xs: -60, sm: -80, md: -100, lg: -120 },
                 animation: "blobMove 12s ease-in-out infinite alternate",
                 "@keyframes blobMove": {
                   from: { transform: "translate(0px, 0px)" },
@@ -210,14 +231,14 @@ const CVCard = forwardRef(
               "&::after": {
                 content: '""',
                 position: "absolute",
-                width: { xs: 100, sm: 150, md: 180 },
-                height: { xs: 100, sm: 150, md: 180 },
+                width: { xs: 80, sm: 100, md: 150, lg: 180 },
+                height: { xs: 80, sm: 100, md: 150, lg: 180 },
                 borderRadius: "50%",
                 background: currentColor.glow,
-                filter: "blur(100px)",
-                opacity: 0.08,
-                bottom: { xs: -60, md: -90 },
-                left: { xs: -60, md: -90 },
+                filter: isMobile ? "blur(70px)" : "blur(100px)",
+                opacity: isMobile ? 0.04 : 0.08,
+                bottom: { xs: -50, sm: -60, md: -80, lg: -90 },
+                left: { xs: -50, sm: -60, md: -80, lg: -90 },
                 animation: "blobMove2 15s ease-in-out infinite",
                 "@keyframes blobMove2": {
                   from: { transform: "translate(0px, 0px)" },
@@ -227,27 +248,22 @@ const CVCard = forwardRef(
             }),
 
           // ============================================
-          // HOVER EFFECTS
+          // HOVER EFFECTS (Disabled on mobile)
           // ============================================
           ...(interactive &&
             hoverEffect && {
-              cursor: "pointer",
+              cursor: isMobile ? "auto" : "pointer",
               "&:hover": {
-                transform: "translateY(-8px) scale(1.01)",
+                transform: isMobile ? "scale(1)" : "translateY(-8px) scale(1.01)",
                 boxShadow:
                   variant === "glass"
-                    ? `inset 0 0 32px ${currentColor.glowLight}, 0 24px 64px ${currentColor.glowLight}`
+                    ? `inset 0 0 32px ${currentColor.glowLight}, ${shadowVariants.xl}`
                     : `${shadowVariants.xl}, 0 0 40px ${currentColor.glowDark}`,
                 background:
-                  variant === "glass"
-                    ? "rgba(255, 255, 255, 0.85)"
-                    : variantStyles.background,
+                  variant === "glass" ? "rgba(255, 255, 255, 0.85)" : variantStyles.background,
               },
             }),
 
-          // ============================================
-          // FOCUS STATE (Accessibility)
-          // ============================================
           "&:focus-visible": {
             outline: `3px solid ${currentColor.glow}`,
             outlineOffset: "3px",
@@ -267,13 +283,14 @@ const CVCard = forwardRef(
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      width: 44,
-                      height: 44,
+                      width: { xs: 36, md: 44 },
+                      height: { xs: 36, md: 44 },
                       borderRadius: "12px",
                       background: `linear-gradient(135deg, ${currentColor.glow}20, ${currentColor.glow}10)`,
                       color: currentColor.glow,
+                      flexShrink: 0,
                       "& svg": {
-                        fontSize: "24px",
+                        fontSize: { xs: "18px", md: "24px" },
                       },
                     }}
                   >
@@ -287,30 +304,39 @@ const CVCard = forwardRef(
               sx={{
                 position: "relative",
                 zIndex: 2,
-                pb: divider ? 2 : 2,
-                px: { xs: 2, md: 3 },
-                pt: { xs: 2, md: 3 },
+                pb: divider ? { xs: 1.5, md: 2 } : { xs: 1.5, md: 2 },
+                px: { xs: 1.5, sm: 2, md: 3 },
+                pt: { xs: 1.5, sm: 2, md: 3 },
+                gap: { xs: 1, md: 1.5 },
 
                 "& .MuiCardHeader-title": {
-                  fontSize: { xs: "18px", sm: "20px", md: "24px" },
+                  fontSize: { xs: "16px", sm: "18px", md: "24px" },
                   fontWeight: 800,
                   letterSpacing: "-0.5px",
                   background: `linear-gradient(135deg, ${currentColor.glow}, ${currentColor.text})`,
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  maxWidth: "100%",
+                  lineHeight: 1.2,
                 },
 
                 "& .MuiCardHeader-subheader": {
-                  fontSize: { xs: "12px", md: "14px" },
+                  fontSize: { xs: "11px", sm: "12px", md: "14px" },
                   color: "#64748b",
-                  marginTop: "6px",
+                  marginTop: { xs: "4px", md: "6px" },
                   fontWeight: 500,
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  maxWidth: "100%",
                 },
 
                 "& .MuiCardHeader-action": {
                   marginTop: 0,
                   marginRight: 0,
+                  alignSelf: "flex-start",
                 },
               }}
             />
@@ -335,22 +361,24 @@ const CVCard = forwardRef(
           sx={{
             position: "relative",
             zIndex: 2,
-            pt: title ? { xs: 2, md: 3 } : { xs: 2, md: 3 },
-            pb: footer ? 2 : { xs: 2, md: 3 },
-            px: { xs: 2, md: 3 },
+            pt: title ? { xs: 1.5, sm: 2, md: 3 } : { xs: 1.5, sm: 2, md: 3 },
+            pb: footer ? { xs: 1, sm: 1.5, md: 2 } : { xs: 1.5, sm: 2, md: 3 },
+            px: { xs: 1.5, sm: 2, md: 3 },
 
             // ============================================
-            // TYPOGRAPHY STYLING
+            // TYPOGRAPHY STYLES (RESPONSIVE)
             // ============================================
             "& h1, & h2, & h3, & h4, & h5, & h6": {
-              marginTop: "24px",
-              marginBottom: "16px",
+              marginTop: { xs: "16px", md: "24px" },
+              marginBottom: { xs: "12px", md: "16px" },
               letterSpacing: "-0.5px",
               fontWeight: 700,
               background: `linear-gradient(135deg, ${currentColor.text}, ${currentColor.glow})`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
+              whiteSpace: "normal",
+              wordBreak: "break-word",
 
               "&:first-of-type": {
                 marginTop: 0,
@@ -361,19 +389,21 @@ const CVCard = forwardRef(
               },
             },
 
-            "& h1": { fontSize: { xs: "28px", md: "32px" } },
-            "& h2": { fontSize: { xs: "24px", md: "28px" } },
-            "& h3": { fontSize: { xs: "20px", md: "24px" } },
-            "& h4": { fontSize: { xs: "18px", md: "20px" } },
-            "& h5": { fontSize: { xs: "16px", md: "18px" } },
-            "& h6": { fontSize: { xs: "14px", md: "16px" } },
+            "& h1": { fontSize: { xs: "20px", sm: "24px", md: "32px" } },
+            "& h2": { fontSize: { xs: "18px", sm: "22px", md: "28px" } },
+            "& h3": { fontSize: { xs: "16px", sm: "20px", md: "24px" } },
+            "& h4": { fontSize: { xs: "15px", sm: "17px", md: "20px" } },
+            "& h5": { fontSize: { xs: "14px", sm: "16px", md: "18px" } },
+            "& h6": { fontSize: { xs: "13px", sm: "15px", md: "16px" } },
 
             "& p": {
               color: "#475569",
-              lineHeight: 1.7,
-              marginBottom: "16px",
-              fontSize: { xs: "14px", md: "16px" },
+              lineHeight: 1.6,
+              marginBottom: { xs: "12px", md: "16px" },
+              fontSize: { xs: "13px", sm: "14px", md: "16px" },
               fontWeight: 500,
+              whiteSpace: "normal",
+              wordBreak: "break-word",
 
               "&:last-of-type": {
                 marginBottom: 0,
@@ -382,14 +412,16 @@ const CVCard = forwardRef(
 
             "& ul, & ol": {
               color: "#475569",
-              paddingLeft: "28px",
-              marginBottom: "16px",
+              paddingLeft: { xs: "20px", md: "28px" },
+              marginBottom: { xs: "12px", md: "16px" },
 
               "& li": {
-                marginBottom: "12px",
-                lineHeight: 1.7,
-                fontSize: { xs: "14px", md: "16px" },
+                marginBottom: { xs: "8px", md: "12px" },
+                lineHeight: 1.6,
+                fontSize: { xs: "13px", sm: "14px", md: "16px" },
                 fontWeight: 500,
+                whiteSpace: "normal",
+                wordBreak: "break-word",
 
                 "&:last-child": {
                   marginBottom: 0,
@@ -403,6 +435,7 @@ const CVCard = forwardRef(
               fontWeight: 600,
               transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
               position: "relative",
+              wordBreak: "break-word",
 
               "&:hover": {
                 textDecoration: "underline",
@@ -435,10 +468,11 @@ const CVCard = forwardRef(
             "& code": {
               background: currentColor.glowLight,
               color: currentColor.text,
-              padding: "2px 8px",
+              padding: { xs: "1px 6px", md: "2px 8px" },
               borderRadius: "4px",
-              fontSize: "12px",
+              fontSize: { xs: "11px", md: "12px" },
               fontFamily: "monospace",
+              wordBreak: "break-word",
             },
           }}
         >
@@ -465,11 +499,13 @@ const CVCard = forwardRef(
               sx={{
                 position: "relative",
                 zIndex: 2,
-                px: { xs: 2, md: 3 },
-                py: 2,
+                px: { xs: 1.5, sm: 2, md: 3 },
+                py: { xs: 1, sm: 1.5, md: 2 },
                 background: `linear-gradient(180deg, transparent, ${currentColor.hover})`,
                 borderTop: `1px solid ${currentColor.border}`,
-                fontSize: { xs: "14px", md: "16px" },
+                fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                whiteSpace: "normal",
+                wordBreak: "break-word",
               }}
             >
               {footer}
@@ -484,3 +520,4 @@ const CVCard = forwardRef(
 CVCard.displayName = "CVCard";
 
 export default CVCard;
+
