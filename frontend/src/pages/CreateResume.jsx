@@ -632,17 +632,28 @@ export default function CreateResume() {
         }}
       >
         <Typography
-          variant="h4"
-          fontWeight="bold"
-          sx={{
-            background: "linear-gradient(135deg, #3b82f6, #2563eb)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            mb: 1,
+           sx={{
+             fontSize: {
+                xs: "2rem",
+                sm: "2.4rem",
+               md: "3rem",
+             },
+             fontWeight: 800,
+             lineHeight: 1.2,
+             mb: 1,
+
+             background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+             WebkitBackgroundClip: "text",
+             WebkitTextFillColor: "transparent",
+
+             whiteSpace: "normal",
+             overflowWrap: "break-word",
+             wordBreak: "break-word",
+             maxWidth: "100%",
           }}
-        >
+        >     
           Create Your Professional Resume
-        </Typography>
+       </Typography>
         <Typography variant="body2" color="text.secondary">
           Fill in your information and generate your ATS-optimized resume
         </Typography>
