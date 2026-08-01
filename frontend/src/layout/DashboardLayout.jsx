@@ -1,9 +1,5 @@
 import { useState } from "react";
-
-import {
-  Box,
-  Drawer,
-} from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
@@ -17,8 +13,10 @@ export default function DashboardLayout({ children }) {
         position: "relative",
         display: "flex",
         minHeight: "100vh",
+        width: "100%",
         bgcolor: "#F8FAFC",
-        overflow: "hidden",
+        overflowX: "hidden",
+        overflowY: "auto",
 
         "&::before": {
           content: '""',
@@ -31,7 +29,7 @@ export default function DashboardLayout({ children }) {
           opacity: 0.18,
           top: -120,
           left: -120,
-          animation: "blob1 18s ease-in-out infinite alternate",
+          zIndex: 0,
         },
 
         "&::after": {
@@ -45,36 +43,16 @@ export default function DashboardLayout({ children }) {
           opacity: 0.18,
           bottom: -120,
           right: -120,
-          animation: "blob2 20s ease-in-out infinite alternate",
-        },
-
-        "@keyframes blob1": {
-          "0%": {
-            transform: "translate(0px,0px)",
-          },
-          "100%": {
-            transform: "translate(180px,120px)",
-          },
-        },
-
-        "@keyframes blob2": {
-          "0%": {
-            transform: "translate(0px,0px)",
-          },
-          "100%": {
-            transform: "translate(-180px,-120px)",
-          },
+          zIndex: 0,
         },
       }}
     >
       {/* Desktop Sidebar */}
-
       <Box
         sx={{
-          display: {
-            xs: "none",
-            md: "block",
-          },
+          display: { xs: "none", md: "block" },
+          width: 320,
+          flexShrink: 0,
           position: "relative",
           zIndex: 2,
         }}
@@ -82,15 +60,15 @@ export default function DashboardLayout({ children }) {
         <Sidebar />
       </Box>
 
-      {/* Mobile Sidebar */}
-
+      {/* Mobile Drawer */}
       <Drawer
         anchor="left"
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: 290,
+            width: 300,
+            maxWidth: "80%",
             bgcolor: "#111827",
           },
         }}
@@ -99,21 +77,33 @@ export default function DashboardLayout({ children }) {
       </Drawer>
 
       {/* Main Content */}
-
       <Box
         sx={{
           flex: 1,
+          minWidth: 0,
+          width: "100%",
+          maxWidth: "100%",
           position: "relative",
           zIndex: 1,
+          boxSizing: "border-box",
+          overflowX: "hidden",
           p: {
             xs: 2,
+            sm: 3,
             md: 4,
           },
         }}
       >
         <Header onMenuClick={() => setOpen(true)} />
 
-        {children}
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "100%",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
