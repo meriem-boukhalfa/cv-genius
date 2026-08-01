@@ -1,24 +1,9 @@
-/**
- * ============================================
- * 📱 CreateResume - MOBILE OPTIMIZED (FIXED)
- * ============================================
- *
- * Correctifs apportés vs version originale :
- * 🐛 useEffect ne dépend plus de `progress` → l'animation ne redémarre plus
- *    à chaque tick (c'était la cause de la progression saccadée)
- * 🐛 `runStage(stage)` utilise réellement son paramètre au lieu de relire
- *    `progressStages[stageIndex]` (fermeture obsolète)
- * 🛡️ Reset de l'état (progress/currentStepIndex) après une erreur
- * 🛡️ AbortController pour annuler les requêtes si le composant est démonté
- * 🛡️ Nom de fichier téléchargé sanitisé
- * ♿ Ajout d'attributs ARIA sur la barre de progression et les étapes
- */
-
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Paper,
   Typography,
   Box,
+  CircularProgress,
   LinearProgress,
   Alert,
   Snackbar,
@@ -41,37 +26,7 @@ import Workshops from "../components/Workshops";
 import api from "../services/api";
 
 // ============================================
-// CONSTANTS (extraites du composant : pas recréées à chaque render)
-// ============================================
-
-const PROGRESS_STAGES = [
-  { target: 20, duration: 800, step: 0 },
-  { target: 40, duration: 1200, step: 1 },
-  { target: 60, duration: 1500, step: 2 },
-  { target: 75, duration: 1200, step: 3 },
-  { target: 85, duration: 1000, step: 4 },
-  { target: 95, duration: 800, step: 5 },
-];
-
-const STEP_DEFINITIONS = [
-  { label: "Preparing", description: "Organizing your information", threshold: 15 },
-  { label: "Validating", description: "Checking data", threshold: 35 },
-  { label: "Optimizing", description: "Enhancing quality", threshold: 55 },
-  { label: "ATS Format", description: "Formatting document", threshold: 75 },
-  { label: "PDF Generation", description: "Creating PDF", threshold: 85 },
-  { label: "Download Ready", description: "Preparing file", threshold: 100 },
-];
-
-function sanitizeFilename(name) {
-  return (name || "resume")
-    .normalize("NFKD")
-    .replace(/[^\w\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "_");
-}
-
-// ============================================
-// STEP INDICATOR COMPONENT
+// STEP INDICATOR COMPONENT - MOBILE OPTIMIZED
 // ============================================
 
 function StepIndicator({ steps, currentStep }) {
@@ -79,12 +34,10 @@ function StepIndicator({ steps, currentStep }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ my: { xs: 2, sm: 3, md: 4 } }} role="list" aria-label="Resume generation steps">
+    <Box sx={{ my: { xs: 2, sm: 3, md: 4 } }}>
       {steps.map((step, index) => (
         <Box
-          key={step.label}
-          role="listitem"
-          aria-current={step.active ? "step" : undefined}
+          key={index}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -94,35 +47,47 @@ function StepIndicator({ steps, currentStep }) {
             gap: { xs: 1, sm: 1.5 },
           }}
         >
+          {/* Step Circle - RESPONSIVE */}
           <Box
             sx={{
-              width: { xs: 28, sm: 32 },
-              height: { xs: 28, sm: 32 },
+              width: { xs: 32, sm: 40 },
+              height: { xs: 32, sm: 40 },
               borderRadius: "50%",
-              backgroundColor: step.completed || step.active ? "#0f172a" : "#e5e7eb",
+              background: step.completed
+                ? "linear-gradient(135deg, #10b981, #059669)"
+                : "linear-gradient(135deg, #3b82f6, #2563eb)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
+              boxShadow: step.completed
+                ? "0 2px 8px rgba(16, 185, 129, 0.3)"
+                : "0 2px 8px rgba(59, 130, 246, 0.3)",
               transition: "all 0.3s ease",
+              animation: step.active ? "pulse 1.5s ease-in-out infinite" : "none",
+              "@keyframes pulse": {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(1.1)" },
+              },
             }}
           >
             <Typography
               sx={{
-                color: step.completed || step.active ? "white" : "#9ca3af",
-                fontWeight: 700,
-                fontSize: { xs: "12px", sm: "14px" },
+                color: "white",
+                fontWeight: "bold",
+                fontSize: { xs: "14px", sm: "18px" },
               }}
             >
               {step.completed ? "✓" : index + 1}
             </Typography>
           </Box>
 
-          <Box sx={{ flex: 1, minWidth: 0, textAlign: "left" }}>
+          {/* Step Content - RESPONSIVE */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography
               sx={{
                 fontWeight: step.active || step.completed ? 600 : 500,
-                color: step.completed || step.active ? "#0f172a" : "#9ca3af",
+                color: step.completed ? "#10b981" : "inherit",
                 fontSize: { xs: "12px", sm: "14px" },
                 whiteSpace: "normal",
                 wordBreak: "break-word",
@@ -134,7 +99,7 @@ function StepIndicator({ steps, currentStep }) {
               <Typography
                 sx={{
                   fontSize: "12px",
-                  color: "#9ca3af",
+                  color: "#64748b",
                   mt: 0.3,
                   whiteSpace: "normal",
                   wordBreak: "break-word",
@@ -145,8 +110,11 @@ function StepIndicator({ steps, currentStep }) {
             )}
           </Box>
 
+          {/* Step Status - HIDE ON MOBILE */}
           {step.completed && !isMobile && (
-            <Typography sx={{ fontSize: "11px", color: "#9ca3af", fontWeight: 600 }}>Done</Typography>
+            <Typography sx={{ fontSize: "11px", color: "#10b981", fontWeight: 600 }}>
+              Done
+            </Typography>
           )}
         </Box>
       ))}
@@ -155,10 +123,13 @@ function StepIndicator({ steps, currentStep }) {
 }
 
 // ============================================
-// PROFESSIONAL LOADING SCREEN
+// PROFESSIONAL LOADING SCREEN - MOBILE OPTIMIZED
 // ============================================
 
-function ProfessionalLoadingScreen({ progress, steps }) {
+function ProfessionalLoadingScreen({ progress, steps, currentStepIndex }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
@@ -167,41 +138,142 @@ function ProfessionalLoadingScreen({ progress, steps }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        // Fond dégradé doux type "Codex" (lavande -> bleu très pâle)
-        background: "linear-gradient(135deg, #eef2ff 0%, #dbe4ff 50%, #e6e9ff 100%)",
+        background: "linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%)",
         px: { xs: 2, sm: 3 },
-        py: { xs: 6, sm: 8 },
+        py: { xs: 4, sm: 6 },
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="xs" sx={{ textAlign: "center" }}>
-        {/* Icône centrale simple, comme le logo Codex */}
+      {/* Background Animated Circles - SMALLER ON MOBILE */}
+      {!isMobile && (
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "-50px",
+              right: "-50px",
+              width: { xs: 150, sm: 300 },
+              height: { xs: 150, sm: 300 },
+              borderRadius: "50%",
+              background: "rgba(59, 130, 246, 0.1)",
+              animation: "float 6s ease-in-out infinite",
+              "@keyframes float": {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(20px)" },
+              },
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "-30px",
+              left: "-30px",
+              width: { xs: 120, sm: 250 },
+              height: { xs: 120, sm: 250 },
+              borderRadius: "50%",
+              background: "rgba(16, 185, 129, 0.1)",
+              animation: "float 8s ease-in-out infinite reverse",
+            }}
+          />
+        </>
+      )}
+
+      {/* Main Content */}
+      <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1 }}>
+        {/* Header Icon - RESPONSIVE */}
         <Box
           sx={{
-            width: { xs: 88, sm: 112 },
-            height: { xs: 88, sm: 112 },
-            borderRadius: "24px",
-            background: "#ffffff",
-            boxShadow: "0 8px 30px rgba(15, 23, 42, 0.08)",
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
-            mx: "auto",
-            mb: { xs: 4, sm: 5 },
+            mb: { xs: 3, sm: 4 },
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          <Typography sx={{ fontWeight: 800, fontSize: { xs: "20px", sm: "26px" }, color: "#111827" }}>
-            {progress}%
-          </Typography>
+          <Box
+            sx={{
+              position: "relative",
+              width: { xs: 100, sm: 140 },
+              height: { xs: 100, sm: 140 },
+            }}
+          >
+            {/* Outer Ring */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: "50%",
+                border: "2px solid rgba(59, 130, 246, 0.2)",
+              }}
+            />
+
+            {/* Animated Ring */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: "50%",
+                border: "2px solid transparent",
+                borderTop: "2px solid #3b82f6",
+                borderRight: "2px solid #2563eb",
+                animation: "spin 2s linear infinite",
+                "@keyframes spin": {
+                  "0%": { transform: "rotate(0deg)" },
+                  "100%": { transform: "rotate(360deg)" },
+                },
+              }}
+            />
+
+            {/* Center Progress Circle */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 10,
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 5px 20px rgba(59, 130, 246, 0.3)",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: { xs: "24px", sm: "32px" },
+                  color: "white",
+                  lineHeight: 1,
+                }}
+              >
+                {progress}%
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { xs: "9px", sm: "11px" },
+                  color: "rgba(255, 255, 255, 0.8)",
+                  mt: 0.3,
+                }}
+              >
+                Complete
+              </Typography>
+            </Box>
+          </Box>
         </Box>
 
-        {/* Gros titre noir, sobre — pas de dégradé de texte */}
+        {/* Title - RESPONSIVE */}
         <Typography
           sx={{
-            fontSize: { xs: "28px", sm: "40px", md: "48px" },
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
-            color: "#0f172a",
-            mb: 1.5,
+            fontSize: { xs: "18px", sm: "24px", md: "32px" },
+            fontWeight: "bold",
+            textAlign: "center",
+            background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            mb: 1,
+            position: "relative",
+            zIndex: 1,
             whiteSpace: "normal",
             wordBreak: "break-word",
           }}
@@ -209,48 +281,67 @@ function ProfessionalLoadingScreen({ progress, steps }) {
           Generating Your Resume
         </Typography>
 
+        {/* Subtitle - RESPONSIVE */}
         <Typography
           sx={{
-            fontSize: { xs: "13px", sm: "15px" },
-            color: "#6b7280",
-            mb: { xs: 4, sm: 5 },
+            fontSize: { xs: "12px", sm: "14px" },
+            color: "#64748b",
+            textAlign: "center",
+            mb: { xs: 3, sm: 4 },
+            position: "relative",
+            zIndex: 1,
             whiteSpace: "normal",
             wordBreak: "break-word",
           }}
         >
-          Our AI is putting together your ATS-friendly resume.
+          Our AI is creating your professional ATS-friendly resume. Please wait...
         </Typography>
 
-        <Box sx={{ mb: { xs: 4, sm: 5 } }}>
+        {/* Progress Bar */}
+        <Box sx={{ mb: { xs: 3, sm: 4 }, position: "relative", zIndex: 1 }}>
           <LinearProgress
             variant="determinate"
             value={progress}
-            aria-label="Resume generation progress"
-            aria-valuenow={progress}
             sx={{
-              height: 4,
+              height: 6,
               borderRadius: 4,
-              backgroundColor: "#e5e7eb",
+              backgroundColor: "rgba(59, 130, 246, 0.1)",
               "& .MuiLinearProgress-bar": {
                 borderRadius: 4,
-                backgroundColor: "#0f172a",
+                background: "linear-gradient(90deg, #3b82f6, #2563eb)",
               },
             }}
           />
         </Box>
 
-        <StepIndicator steps={steps} />
+        {/* Step Indicators */}
+        <StepIndicator steps={steps} currentStep={currentStepIndex} />
 
-        <Typography
+        {/* Tip - RESPONSIVE */}
+        <Box
           sx={{
-            mt: { xs: 4, sm: 5 },
-            fontSize: { xs: "11px", sm: "12px" },
-            color: "#9ca3af",
-            fontWeight: 500,
+            mt: { xs: 3, sm: 4 },
+            p: { xs: 1.5, sm: 2 },
+            background: "rgba(59, 130, 246, 0.05)",
+            border: "1px solid rgba(59, 130, 246, 0.2)",
+            borderRadius: 2,
+            textAlign: "center",
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          This usually takes 10–30 seconds — please don't close this window.
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "11px", sm: "12px" },
+              color: "#3b82f6",
+              fontWeight: 500,
+              whiteSpace: "normal",
+              wordBreak: "break-word",
+            }}
+          >
+            💡 This usually takes 10-30 seconds. Please don't close this window.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );
@@ -262,7 +353,12 @@ function ProfessionalLoadingScreen({ progress, steps }) {
 
 function ToastNotification({ open, onClose, message, severity = "success" }) {
   return (
-    <Snackbar open={open} autoHideDuration={5000} onClose={onClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+    <Snackbar
+      open={open}
+      autoHideDuration={5000}
+      onClose={onClose}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+    >
       <Alert
         onClose={onClose}
         severity={severity}
@@ -285,6 +381,13 @@ function ToastNotification({ open, onClose, message, severity = "success" }) {
 // ============================================
 
 export default function CreateResume() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // ============================================
+  // STATE MANAGEMENT
+  // ============================================
+
   const [cv, setCv] = useState({
     full_name: "",
     email: "",
@@ -294,13 +397,53 @@ export default function CreateResume() {
     github: "",
     job_title: "",
     summary: "",
-    education: [{ university: "", degree: "", field: "", location: "", start_date: "", end_date: "", description: "" }],
-    certificates: [{ name: "", organization: "", issue_date: "", credential: "" }],
-    experience: [{ company: "", position: "", location: "", start_date: "", end_date: "", description: "" }],
+    education: [
+      {
+        university: "",
+        degree: "",
+        field: "",
+        location: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
+    ],
+    certificates: [
+      {
+        name: "",
+        organization: "",
+        issue_date: "",
+        credential: "",
+      },
+    ],
+    experience: [
+      {
+        company: "",
+        position: "",
+        location: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
+    ],
     skills: [],
-    languages: [{ name: "", level: "" }],
+    languages: [
+      {
+        name: "",
+        level: "",
+      },
+    ],
     projects: [
-      { name: "", role: "", technologies: "", github: "", demo: "", start_date: "", end_date: "", description: "" },
+      {
+        name: "",
+        role: "",
+        technologies: "",
+        github: "",
+        demo: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+      },
     ],
     internships: [],
     workshops: [],
@@ -310,73 +453,106 @@ export default function CreateResume() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [toast, setToast] = useState({ open: false, message: "", severity: "success" });
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-  // Ref pour lire la progression courante sans la mettre en dépendance de l'effet
-  const progressRef = useRef(0);
-  useEffect(() => {
-    progressRef.current = progress;
-  }, [progress]);
-
-  const steps = useMemo(
-    () =>
-      STEP_DEFINITIONS.map((def, index) => ({
-        label: def.label,
-        description: def.description,
-        completed: progress >= def.threshold,
-        active: currentStepIndex === index,
-      })),
-    [progress, currentStepIndex]
-  );
+  // Define loading steps
+  const steps = [
+    {
+      label: "Preparing",
+      description: "Organizing your information",
+      completed: progress > 15,
+      active: currentStepIndex === 0,
+    },
+    {
+      label: "Validating",
+      description: "Checking data",
+      completed: progress > 35,
+      active: currentStepIndex === 1,
+    },
+    {
+      label: "Optimizing",
+      description: "Enhancing quality",
+      completed: progress > 55,
+      active: currentStepIndex === 2,
+    },
+    {
+      label: "ATS Format",
+      description: "Formatting document",
+      completed: progress > 75,
+      active: currentStepIndex === 3,
+    },
+    {
+      label: "PDF Generation",
+      description: "Creating PDF",
+      completed: progress > 85,
+      active: currentStepIndex === 4,
+    },
+    {
+      label: "Download Ready",
+      description: "Preparing file",
+      completed: progress >= 100,
+      active: currentStepIndex === 5,
+    },
+  ];
 
   // ============================================
-  // PROGRESS SIMULATION EFFECT (fixé : ne dépend que de `loading`)
+  // PROGRESS SIMULATION EFFECT
   // ============================================
 
   useEffect(() => {
     if (!loading) return;
 
-    let cancelled = false;
-    const activeIntervals = [];
+    const intervals = [];
 
-    const runStage = (stageIndex) => {
-      if (cancelled) return;
-      if (stageIndex >= PROGRESS_STAGES.length) {
+    const progressStages = [
+      { target: 20, duration: 800, step: 0 },
+      { target: 40, duration: 1200, step: 1 },
+      { target: 60, duration: 1500, step: 2 },
+      { target: 75, duration: 1200, step: 3 },
+      { target: 85, duration: 1000, step: 4 },
+      { target: 95, duration: 800, step: 5 },
+    ];
+
+    let stageIndex = 0;
+
+    const runStage = (stage) => {
+      if (stageIndex >= progressStages.length) {
         setProgress(100);
         setCurrentStepIndex(5);
         return;
       }
 
-      const { target, duration, step } = PROGRESS_STAGES[stageIndex];
+      const { target, duration, step } = progressStages[stageIndex];
       setCurrentStepIndex(step);
 
-      const startValue = progressRef.current;
-      const ticks = Math.max(1, Math.round(duration / 50));
-      const increment = (target - startValue) / ticks;
+      const increment = (target - progress) / (duration / 50);
+      let current = progress;
 
       const interval = setInterval(() => {
-        const next = Math.min(target, progressRef.current + increment);
-        progressRef.current = next;
-        setProgress(Math.floor(next));
-
-        if (next >= target) {
+        current += increment;
+        if (current >= target) {
+          setProgress(target);
           clearInterval(interval);
-          if (!cancelled) {
-            setTimeout(() => runStage(stageIndex + 1), 200);
-          }
+          stageIndex++;
+          setTimeout(() => runStage(stage), 200);
+        } else {
+          setProgress(Math.floor(current));
         }
       }, 50);
 
-      activeIntervals.push(interval);
+      intervals.push(interval);
     };
 
     runStage(0);
 
     return () => {
-      cancelled = true;
-      activeIntervals.forEach(clearInterval);
+      intervals.forEach((interval) => clearInterval(interval));
     };
-  }, [loading]);
+  }, [loading, progress]);
 
   // ============================================
   // EVENT HANDLERS
@@ -384,11 +560,13 @@ export default function CreateResume() {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setCv((prevCv) => ({ ...prevCv, [name]: value }));
+    setCv((prevCv) => ({
+      ...prevCv,
+      [name]: value,
+    }));
   }, []);
 
   const generateResume = async () => {
-    const controller = new AbortController();
     try {
       setLoading(true);
       setProgress(0);
@@ -396,14 +574,13 @@ export default function CreateResume() {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const response = await api.post("/generate-cv", cv, { signal: controller.signal });
+      const response = await api.post("/generate-cv", cv);
       setLatex(response.data.latex);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       const pdfResponse = await api.get("/download-pdf", {
         responseType: "blob",
-        signal: controller.signal,
       });
 
       await new Promise((resolve) => setTimeout(resolve, 300));
@@ -411,7 +588,7 @@ export default function CreateResume() {
       const url = window.URL.createObjectURL(pdfResponse.data);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${sanitizeFilename(cv.full_name)}_${new Date().getFullYear()}.pdf`;
+      link.download = `${cv.full_name || "resume"}_${new Date().getFullYear()}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -423,21 +600,24 @@ export default function CreateResume() {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setLoading(false);
-      setToast({ open: true, message: "✨ Resume generated and downloaded successfully!", severity: "success" });
+      setToast({
+        open: true,
+        message: "✨ Resume generated and downloaded successfully!",
+        severity: "success",
+      });
 
       setTimeout(() => {
         setProgress(0);
         setCurrentStepIndex(0);
       }, 2000);
     } catch (error) {
-      if (error.name === "CanceledError" || error.name === "AbortError") return;
       console.error("Resume generation error:", error);
       setLoading(false);
-      setProgress(0);
-      setCurrentStepIndex(0);
       setToast({
         open: true,
-        message: error.response?.data?.message || "❌ Error generating resume. Please try again.",
+        message:
+          error.response?.data?.message ||
+          "❌ Error generating resume. Please try again.",
         severity: "error",
       });
     }
@@ -450,26 +630,38 @@ export default function CreateResume() {
   if (loading) {
     return (
       <DashboardLayout>
-        <ProfessionalLoadingScreen progress={progress} steps={steps} />
+        <ProfessionalLoadingScreen
+          progress={progress}
+          steps={steps}
+          currentStepIndex={currentStepIndex}
+        />
       </DashboardLayout>
     );
   }
 
   // ============================================
-  // RENDER MAIN FORM
+  // RENDER MAIN FORM - MOBILE OPTIMIZED
   // ============================================
 
   return (
     <DashboardLayout>
-      <Box sx={{ mb: { xs: 2.5, sm: 3, md: 4 }, pb: { xs: 2, sm: 2.5, md: 3 }, borderBottom: "2px solid #e5e7eb" }}>
+      {/* Header Section - RESPONSIVE */}
+      <Box
+        sx={{
+          mb: { xs: 2.5, sm: 3, md: 4 },
+          pb: { xs: 2, sm: 2.5, md: 3 },
+          borderBottom: "2px solid #e5e7eb",
+        }}
+      >
         <Typography
           sx={{
             fontSize: { xs: "20px", sm: "24px", md: "32px" },
             fontWeight: 800,
             lineHeight: 1.2,
-            letterSpacing: "-0.02em",
             mb: 1,
-            color: "#0f172a",
+            background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
             whiteSpace: "normal",
             overflowWrap: "break-word",
             wordBreak: "break-word",
@@ -481,12 +673,17 @@ export default function CreateResume() {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ fontSize: { xs: "12px", sm: "14px" }, whiteSpace: "normal", wordBreak: "break-word" }}
+          sx={{
+            fontSize: { xs: "12px", sm: "14px" },
+            whiteSpace: "normal",
+            wordBreak: "break-word",
+          }}
         >
           Fill in your information and generate your ATS-optimized resume
         </Typography>
       </Box>
 
+      {/* Form Sections */}
       <PersonalInfo cv={cv} handleChange={handleChange} />
       <Experience cv={cv} setCv={setCv} />
       <Education cv={cv} setCv={setCv} />
@@ -497,33 +694,46 @@ export default function CreateResume() {
       <Internships cv={cv} setCv={setCv} />
       <Workshops cv={cv} setCv={setCv} />
 
-      <Box sx={{ my: { xs: 3, sm: 4, md: 5 }, display: "flex", justifyContent: "center" }}>
+      {/* Generate Button - RESPONSIVE */}
+      <Box
+        sx={{
+          my: { xs: 3, sm: 4, md: 5 },
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <GenerateButton
           onClick={generateResume}
           disabled={loading}
           sx={{
-            backgroundColor: "#0f172a",
-            borderRadius: "999px",
-            textTransform: "none",
-            fontWeight: 600,
-            px: 4,
-            py: 1.5,
-            boxShadow: "none",
-            transition: "all 0.2s ease",
+            background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+            boxShadow: "0 5px 15px rgba(59, 130, 246, 0.3)",
+            transition: "all 0.3s ease",
             width: { xs: "100%", sm: "auto" },
             "&:hover:not(:disabled)": {
-              backgroundColor: "#1e293b",
-              transform: "translateY(-1px)",
+              transform: "translateY(-2px)",
+              boxShadow: "0 10px 25px rgba(59, 130, 246, 0.4)",
             },
-            "&:disabled": { opacity: 0.5 },
+            "&:disabled": {
+              opacity: 0.6,
+            },
           }}
         >
           {loading ? "Generating..." : "Generate & Download"}
         </GenerateButton>
       </Box>
 
+      {/* LaTeX Output Section - RESPONSIVE */}
       {latex && (
-        <Paper elevation={3} sx={{ mt: { xs: 4, sm: 5, md: 6 }, p: { xs: 1.5, sm: 2, md: 3 }, borderRadius: 2, border: "2px solid #dbeafe" }}>
+        <Paper
+          elevation={3}
+          sx={{
+            mt: { xs: 4, sm: 5, md: 6 },
+            p: { xs: 1.5, sm: 2, md: 3 },
+            borderRadius: 2,
+            border: "2px solid #dbeafe",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -534,7 +744,13 @@ export default function CreateResume() {
               flexDirection: { xs: "column", sm: "row" },
             }}
           >
-            <Typography variant="h5" fontWeight="bold" sx={{ fontSize: { xs: "14px", sm: "18px" } }}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{
+                fontSize: { xs: "14px", sm: "18px" },
+              }}
+            >
               Generated LaTeX Code
             </Typography>
             <Button
@@ -542,9 +758,16 @@ export default function CreateResume() {
               variant="outlined"
               onClick={() => {
                 navigator.clipboard.writeText(latex);
-                setToast({ open: true, message: "LaTeX code copied!", severity: "success" });
+                setToast({
+                  open: true,
+                  message: "LaTeX code copied!",
+                  severity: "success",
+                });
               }}
-              sx={{ fontSize: { xs: "11px", sm: "14px" }, width: { xs: "100%", sm: "auto" } }}
+              sx={{
+                fontSize: { xs: "11px", sm: "14px" },
+                width: { xs: "100%", sm: "auto" },
+              }}
             >
               Copy Code
             </Button>
@@ -571,6 +794,7 @@ export default function CreateResume() {
         </Paper>
       )}
 
+      {/* Toast Notification */}
       <ToastNotification
         open={toast.open}
         onClose={() => setToast({ ...toast, open: false })}
