@@ -12,11 +12,10 @@ export default function DashboardLayout({ children }) {
       sx={{
         position: "relative",
         display: "flex",
-        minHeight: "100vh",
+        height: "100vh",
         width: "100%",
         bgcolor: "#F8FAFC",
-        overflowX: "hidden",
-        overflowY: "auto",
+        overflow: "hidden",
 
         "&::before": {
           content: '""',
@@ -53,6 +52,7 @@ export default function DashboardLayout({ children }) {
           display: { xs: "none", md: "block" },
           width: 320,
           flexShrink: 0,
+          height: "100vh",
           position: "relative",
           zIndex: 2,
         }}
@@ -60,7 +60,7 @@ export default function DashboardLayout({ children }) {
         <Sidebar />
       </Box>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Sidebar */}
       <Drawer
         anchor="left"
         open={open}
@@ -80,26 +80,28 @@ export default function DashboardLayout({ children }) {
       <Box
         sx={{
           flex: 1,
+          display: "flex",
+          flexDirection: "column",
           minWidth: 0,
-          width: "100%",
-          maxWidth: "100%",
           position: "relative",
           zIndex: 1,
-          boxSizing: "border-box",
-          overflowX: "hidden",
-          p: {
-            xs: 2,
-            sm: 3,
-            md: 4,
-          },
+          overflow: "hidden",
         }}
       >
+        {/* Header */}
         <Header onMenuClick={() => setOpen(true)} />
 
+        {/* Scrollable Content */}
         <Box
           sx={{
-            width: "100%",
-            maxWidth: "100%",
+            flex: 1,
+            overflowY: "auto",
+            overflowX: "hidden",
+            p: {
+              xs: 2,
+              sm: 3,
+              md: 4,
+            },
           }}
         >
           {children}
