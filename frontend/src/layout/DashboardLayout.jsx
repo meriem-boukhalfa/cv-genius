@@ -12,10 +12,10 @@ export default function DashboardLayout({ children }) {
       sx={{
         position: "relative",
         display: "flex",
-        minHeight: "100vh",
+        height: "100vh",
         width: "100%",
         bgcolor: "#F8FAFC",
-        overflowX: "hidden",
+        overflow: "hidden",
 
         "&::before": {
           content: '""',
@@ -79,22 +79,42 @@ export default function DashboardLayout({ children }) {
       <Box
         sx={{
           flex: 1,
+          display: "flex",
+          flexDirection: "column",
           minWidth: 0,
+          minHeight: 0,
           position: "relative",
           zIndex: 1,
-          p: {
-            xs: 2,
-            sm: 3,
-            md: 4,
-          },
         }}
       >
-        <Header onMenuClick={() => setOpen(true)} />
-
+        {/* Header ثابت */}
         <Box
           sx={{
-            width: "100%",
-            maxWidth: "100%",
+            p: {
+              xs: 2,
+              sm: 3,
+              md: 4,
+            },
+            pb: 0,
+            flexShrink: 0,
+          }}
+        >
+          <Header onMenuClick={() => setOpen(true)} />
+        </Box>
+
+        {/* Scroll هنا فقط */}
+        <Box
+          sx={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            overflowX: "hidden",
+            px: {
+              xs: 2,
+              sm: 3,
+              md: 4,
+            },
+            pb: 4,
           }}
         >
           {children}
