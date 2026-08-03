@@ -10,12 +10,12 @@ export default function DashboardLayout({ children }) {
   return (
     <Box
       sx={{
+        position: "relative",
         display: "flex",
-        height: "100vh",
+        minHeight: "100vh",
         width: "100%",
         bgcolor: "#F8FAFC",
-        overflow: "hidden",
-        position: "relative",
+        overflowX: "hidden",
 
         "&::before": {
           content: '""',
@@ -52,6 +52,7 @@ export default function DashboardLayout({ children }) {
           display: { xs: "none", md: "block" },
           width: 320,
           flexShrink: 0,
+          position: "relative",
           zIndex: 2,
         }}
       >
@@ -79,8 +80,7 @@ export default function DashboardLayout({ children }) {
         sx={{
           flex: 1,
           minWidth: 0,
-          overflowY: "auto",
-          overflowX: "hidden",
+          position: "relative",
           zIndex: 1,
           p: {
             xs: 2,
@@ -91,7 +91,14 @@ export default function DashboardLayout({ children }) {
       >
         <Header onMenuClick={() => setOpen(true)} />
 
-        {children}
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "100%",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
